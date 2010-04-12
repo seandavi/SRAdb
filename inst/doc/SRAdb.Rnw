@@ -194,17 +194,13 @@ Launch IGV with 2 GB maximum usable memory support:
 startIGV("mm")
 @
 
-Load BAM files to IGV:
+IGV offers a remort control port that allows R to communicate with IGV.  The current command set is fairly limited, but it does allow for some IGV operations to be performed in the R console.  To utilize this functionality, be sure that IGV is set to allow communication via the ``enable port'' option in IGV preferences.  To load BAM files to IGV and then manipulate the window:
 <<eval=false>>=
-files = list.files(system.file('extdata', package = "SRAdb"), pattern='.bam$', full.names=TRUE)
-load2IGV(files, locus='chr1:1-1000000', Merge=TRUE)
-load2IGV(files, locus='HES4', Merge=FALSE)
-@
-
-If there is no IGV process already running, the following statement will launch a new IGV and load BAM files to it: 
-<<eval=false>>=
-files = list.files(system.file('extdata', package = "SRAdb"), pattern='.bam$', full.names=TRUE)
-load2newIGV(files, locus='chr1:1-1000000')
+exampleBams = file.path(system.file('extdata',package='SRAdb'),
+  dir(system.file('extdata',package='SRAdb'),pattern='bam$'))
+IGVgenome('hg18')
+IGVload(exampleBams)
+IGVgoto('chr1:1-1000')
 @
 
 \section{Graphic view of SRA entities}

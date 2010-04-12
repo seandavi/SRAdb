@@ -14,7 +14,7 @@ maximum usable memory support for the IGV to be launched, which is defined as th
 }
 }
 \details{
-IGV with 1.2 GB maximum usable memory ('mm') is usually for 32-bit Windows; IGV with 2 GB maximum usable memory ('lm') is usually for 32-bit MacOS; IGV with 10 GB maximum usable memory is for large memory 64-bit java machines; IGV with 750 MB ('') is sufficient for most applications. The IGV will be launched through Java Web Start. For details about how IGV is launched or have problems to launch it, please refer to this site: http://www.broadinstitute.org/igv/StartIGV . Note: if \code{\link{load2IGV}} will be used to load BAM files to the new launched IGV, a connection port needs to be enabled in the IGV. This is how to enable connection port in the IGV: in IGV, go View->Preferences->Advanced->Enable port and check the checkbox.
+IGV with 1.2 GB maximum usable memory ('mm') is usually for 32-bit Windows; IGV with 2 GB maximum usable memory ('lm') is usually for 32-bit MacOS; IGV with 10 GB maximum usable memory is for large memory 64-bit java machines; IGV with 750 MB ('') is sufficient for most applications. The IGV will be launched through Java Web Start. For details about how IGV is launched or have problems to launch it, please refer to this site: http://www.broadinstitute.org/igv/StartIGV . Note: if \code{\link{IGVload}} will be used to load BAM files to the new launched IGV, a connection port needs to be enabled in the IGV. This is how to enable connection port in the IGV: in IGV, go View->Preferences->Advanced->Enable port and check the checkbox.
 
 }
 \references{
@@ -24,7 +24,7 @@ http://www.broadinstitute.org/igv/
 Jack Zhu
 }
 \seealso{
-\code{\link{load2IGV}}, \code{\link{load2newIGV}}
+\code{\link{IGVload}}, \code{\link{IGVgoto}}, \code{\link{IGVgenome}}
 }
 \examples{
 ## launch IGV with 1.2 GB maximum usable memory support
