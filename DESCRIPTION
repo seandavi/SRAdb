@@ -1,0 +1,29 @@
+Package: SRAdb
+Type: Package
+Title: A compilation of metadata from NCBI SRA and tools
+Version: 1.1.11
+Date: 2010-03-21
+Depends: RSQLite (>= 0.8-4)
+Imports: RCurl, GEOquery
+Suggests: Rgraphviz
+Author: Jack Zhu and Sean Davis
+Maintainer: Jack Zhu <zhujack@mail.nih.gov>
+biocViews: Infrastructure, HighThroughputSequencing, DataImport
+Description: The Sequence Read Archive (SRA) is the largest public
+  repository of sequencing data from the next generation of sequencing
+  platforms including Roche 454 GS System, Illumina Genome Analyzer,
+  Applied Biosystems SOLiD System, Helicos Heliscope, and
+  others. However, finding data of interest can be challenging using
+  current tools. SRAdb is an attempt to make access to the metadata
+  associated with submission, study, sample, experiment and run much
+  more feasible. This is accomplished by parsing all the NCBI SRA
+  metadata into a SQLite database that can be stored and queried
+  locally. Fulltext search in the package make querying metadata very
+  flexible and powerful.  Fastq files can be downloaded for doing
+  alignment locally. The SQLite database is updated regularly as new
+  data is added to SRA and can be downloaded at will for the most
+  up-to-date metadata.
+License: Artistic-2.0
+LazyLoad: yes
+URL: http://watson.nci.nih.gov/
+

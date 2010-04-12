@@ -1,0 +1,235 @@
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+%\VignetteIndexEntry{Using SRAdb to Query the Sequence Read Archive}
+%\VignetteKeywords{tutorial, sequencing, sql, data}
+%
+%\VignetteDepends{RSQLite, RCurl}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[12pt]{article}
+\usepackage{amsmath,pstricks,fullpage}
+\usepackage{hyperref}
+
+\newcommand{\R}{{\textsf{R}}}
+\newcommand{\code}[1]{{\texttt{#1}}}
+\newcommand{\term}[1]{{\emph{#1}}}
+\newcommand{\Rpackage}[1]{\textsf{#1}}
+\newcommand{\Rfunction}[1]{\texttt{#1}}
+\newcommand{\Robject}[1]{\texttt{#1}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+\newcommand{\Rmethod}[1]{{\textit{#1}}}
+\newcommand{\Rfunarg}[1]{{\textit{#1}}}
+
+\title{Using the \Rpackage{SRAdb} Package to Query the Sequence Read Archive}
+
+\author{Jack Zhu\footnote{zhujack@mail.nih.gov} and Sean Davis\footnote{sdavis2@mail.nih.gov}\\
+  \\
+  Genetics Branch, Center for Cancer Research,\\
+  National Cancer Institute,\\
+  National Institutes of Health
+  }
+
+\begin{document}
+
+<<init, echo=FALSE>>=
+options(width=50)
+@ 
+
+\maketitle
+
+\section{Introduction}
+High throughput sequencing technologies have very rapidly become standard tools in biology.  The data that these machines generate are large, extremely rich.  As such, the Sequence Read Archives (SRA) have been set up at NCBI in the United States, EMBL in Europe, and DDBJ in Japan to capture these data in public repositories in much the same spirit as MIAME-compliant microarray databases like NCBI GEO and EBI ArrayExpress.  
+
+Accessing data in SRA requires finding it first.  This R package provides a convenient and powerful framework to do just that.  In addition, \Rpackage{SRAdb} features functionality to determine availability of sequence files and to download files of interest.  
+
+SRA does not currently store aligned reads or any other processed data that might rely on alignment to a reference genome.  However, NCBI GEO does often contain aligned reads for sequencing experiments and the \Rpackage{SRAdb} package can help to provide links to these data as well.  In combination with the \Rpackage{GEOmetadb} and \Rpackage{GEOquery} packages, these data are also, then, accessible.
+
+
+\section{Getting Started}
+Since SRA is a continuously growing repository, the SRAdb SQLite file is updated regularly.  The first step, then, is to get the SRAdb SQLite file from the online location.  The download and uncompress steps are done automatically with a single command,
+getSRAdbFile.
+
+<<>>=
+library(SRAdb)
+sqlfile <- getSRAdbFile()
+@ 
+
+The default storage location is in the current working directory and the default filename is ``SRAmetadb.sqlite''; it is best to leave the name unchanged unless there is a pressing reason to change it.  Since this SQLite file is of key importance in \Rpackage{SRAdb}, it is perhaps of some interest to know some details about the file itself.
+
+<<>>=
+file.info('SRAmetadb.sqlite')
+@ 
+
+Then, create a connection for later queries. The standard \Rpackage{DBI} functionality as implemented in \Rpackage{RSQLite} function \Rfunction{dbConnect} makes the connection to the database.  The \Rfunction{dbDisconnect} function disconnects the connection.
+
+<<>>=
+sra_con <- dbConnect(SQLite(),sqlfile)
+@ 
+
+For further details, at this time see \code{help('SRAdb-package')}.
+
+\section{Using the \Rpackage{SRAdb} package}
+
+\subsection{Interacting with the database}
+The functionality covered in this section is covered in much more detail in the \Rpackage{DBI} and \Rpackage{RSQLite} package documentation.  We cover enough here only to be useful.  Again, we connect to the database.
+<<>>=
+sra_con <- dbConnect(SQLite(),'SRAmetadb.sqlite')
+@ 
+
+The \Rfunction{dbListTables} function lists all the tables in the SQLite database handled by the connection object \Robject{sra\_con}.  
+<<>>=
+sra_tables <- dbListTables(sra_con)
+sra_tables
+@ 
+
+There is also the \Rfunction{dbListFields} function that can list database fields associated with a table.  
+<<>>=
+dbListFields(sra_con,'study')
+@ 
+
+Sometimes it is useful to get the actual SQL schema associated with a table.  As an example of doing this and using an \Rclass{RSQLite} shortcut function, \Rfunction{sqliteQuickSQL}, we can get the table schema for the \textit{study} table.
+<<>>=
+sqliteQuickSQL(sra_con,'PRAGMA TABLE_INFO(study)')
+@ 
+
+\subsection{Writing SQL queries and getting results} 
+
+Select 3 records from the \textit{study} table and show the first 5 columns:
+<<j1>>=
+rs <- dbGetQuery(sra_con,'select * from study limit 3')
+rs[,1:5]
+@ 
+
+Get the SRA study accessions and titles from SRA study that study\_type contains ``Transcriptome''.  The ``\%'' sign is used in combination with the ``like'' operator to do a ``wildcard'' search for the term ``Transcriptome'' with any number of characters after it.
+
+<<j2>>=
+rs <- dbGetQuery(sra_con,paste("select study_accession,study_title from study where",
+                           "study_description like 'Transcriptome%'",sep=" "))
+rs[1:3,]
+@ 
+
+Of course, we can combine programming and data access.  A simple \Rfunction{sapply} example shows how to query each of the tables for number of records.  
+<<>>=
+getTableCounts <- function(tableName,conn) {
+  sql <- sprintf("select count(*) from %s",tableName)
+  return(dbGetQuery(conn,sql)[1,1])
+}
+do.call(rbind,sapply(sra_tables,getTableCounts,sra_con,simplify=FALSE))
+@ 
+
+
+\subsection{Conversion of SRA entity types}
+
+Large-scale consumers of SRA data might want to convert SRA entity type from one to others, e.g. finding all experiment accessions (SRX, ERX or DRX) and  run accessions (SRR, ERR or DRR) associated with 'SRP001007'. Function sraConvert does the conversion with a very fast mapping between entity types. 
+
+Covert 'SRP001007' to other possible types in the SRAmetadb.sqlite.
+<<>>=
+conversion <- sraConvert(c('SRP001007','SRP000931'), sra_con= sra_con)
+conversion[1:3,]
+@ 
+
+Check what SRA types and how many entities in each type in the conversion.
+<<>>=
+apply(conversion, 2, unique)
+@    
+
+\subsection{Full text search}
+
+Searching by regular table and field specific SQL commands can be very powerful and  if you are familiar with SQL language and the table structure.  If not, SQLite has a very handy module called Full text search (fts3), which allow users to do Google like search with terms and operators.  The function getSRA does Full text search against all fields in a fts3 table with  terms constructed with the Standard Query Syntax and Enhanced Query Syntax. Please see http://www.sqlite.org/fts3.html for detail. 
+
+Find all run and study combined  records in which any given fields has 'breast' and 'cancer' words, including 'breast' and 'cancer' are not next to each other:
+<<>>=
+rs <- getSRA (search_terms ='breast cancer', out_types=c('run','study'),  sra_con=sra_con)
+dim(rs)
+@ 
+
+If you only wants records containing exact phrase of 'breast cancer', in which 'breast' and 'cancer' have other characters between other than a space: 
+<<>>=
+rs <- getSRA (search_terms ='"breast cancer"', out_types=c('run','study'),  sra_con=sra_con)
+dim(rs)
+@
+
+Find all sample records containing words of either 'MCF7' or 'MCF-7':
+<<>>=
+rs <- getSRA (search_terms ='MCF7 OR "MCF-7"', out_types=c('sample'), sra_con=sra_con) 
+dim(rs)
+@
+
+Find all submissions by GEO:
+<<>>=
+rs <- getSRA (search_terms ='submission_center: GEO', out_types=c('submission'), sra_con=sra_con)  
+dim(rs)
+@
+
+Find study records containing a word beginning with 'Carcino':
+<<>>=
+rs <- getSRA (search_terms ='Carcino*', out_types=c('study'), sra_con=sra_con)  
+dim(rs)
+@
+
+\subsection{Get fastq file information}
+
+List fastq file names including ftp addresses associated with "SRA000045":
+<<>>=
+listFastq ("SRA011804", sra_con=sra_con) 
+@
+
+The above function does not check file availability, size and date of the fastq files on the server, but the function getFastqInfo does this, which is good to know if you are  preparing to download them:
+<<>>=
+rs <- getFastqInfo (in_acc=c("SRA011804"), sra_con=sra_con)
+rs[1:3,]
+@
+
+Next you might want to download fastq files from the ftp site.  The getFastq function will download all available fastq files associated with "SRR000648" and "SRR000657" from NCBI SRA ftp site to a new folder in current directory:
+<<eval=false>>=
+getFastq (in_acc=c("SRR000648","SRR000657"), sra_con=sra_con, destdir=getwd())
+@
+
+\section{Interactive views of sequence data}
+
+Working with sequence data is often best done interactively in a genome browser, a task not easily done from R itself.  We have found the Integrative Genomics Viewer (IGV)  a high-performance visualization tool for interactive exploration of large, integrated datasets, increasing usefully for visualizing sequence alignments.  In \Rpackage{SRAdb}, functions \Rfunction{startIGV}, \Rfunction{load2IGV} and \Rfunction{load2newIGV} provide convenient functionality for R to interact with IGV.  Note that for some OS, these functions might not work or work well.  
+
+Launch IGV with 2 GB maximum usable memory support:
+<<eval=false>>=
+startIGV("mm")
+@
+
+Load BAM files to IGV:
+<<eval=false>>=
+files = list.files(system.file('extdata', package = "SRAdb"), pattern='.bam$', full.names=TRUE)
+load2IGV(files, locus='chr1:1-1000000', Merge=TRUE)
+load2IGV(files, locus='HES4', Merge=FALSE)
+@
+
+If there is no IGV process already running, the following statement will launch a new IGV and load BAM files to it: 
+<<eval=false>>=
+files = list.files(system.file('extdata', package = "SRAdb"), pattern='.bam$', full.names=TRUE)
+load2newIGV(files, locus='chr1:1-1000000')
+@
+
+\section{Graphic view of SRA entities}
+
+Due to the nature of SRA data and its design, sometimes it is hard to get a whole picture of the relationship between a set of SRA entities. Functions of \Rfunction{entityGraph} and \Rfunction{sraGraph} in this package generate graphNEL objects with edgemode='directed' from input data.frame or directly from search terms, and then the \Rfunction{plot} function can easily draw a graph.
+
+Create a graphNEL object from SRA accessions, which are full text search results of terms 'colon cancer'
+<<eval=false>>=
+acc <- getSRA (search_terms ='colon cancer', out_types=c('sra'), sra_con=sra_con, acc_only=TRUE) 
+g <- entityGraph(acc)
+attrs <- getDefaultAttrs(list(node=list(fillcolor='lightblue', shape='ellipse')))
+plot(g, attrs= attrs)  
+@
+
+Create a graphNEL object directly from full text search results of terms 'colon cancer'
+<<eval=false>>=
+g <- sraGraph('colon cancer', sra_con)
+attrs <- getDefaultAttrs(list(node=list(fillcolor='lightblue', shape='ellipse')))
+plot(g, attrs=attrs)
+@
+
+\section{sessionInfo}
+
+<<results=tex>>=
+toLatex(sessionInfo())
+@ 
+
+\end{document}
