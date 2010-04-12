@@ -29,6 +29,14 @@
       user
     o Expose 'method' argument of download.file
 
+1.1.12	2010-04-12
+    o Now using socket connections for interacting with IGV
+    o load2IGV and load2newIGV retired
+    o IGVload, IGVgenome, IGVgoto, and IGVsnapshot introduced as 
+      replacements for the single load2... commands
+
+
+
 
 
 	

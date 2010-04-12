@@ -1,0 +1,37 @@
+\name{IGVload}
+\alias{IGVload}
+\title{
+  Load data into IGV via remote port call.
+}
+\description{
+  Loads data via a remote call to IGV.  IGV is limited to accepting filenames only.
+}
+\usage{
+IGVload(files, port = 60151, host = "localhost")
+}
+\arguments{
+  \item{files}{
+  Character vector of one or more filenames or urls to load.
+}
+  \item{port}{
+  The port to which IGV is listening.
+}
+  \item{host}{
+  The host on which IGV is running.
+}
+}
+\references{
+http://www.broadinstitute.org/igv/PortCommands
+}
+\author{
+Sean Davis <sdavis2@mail.nih.gov>
+}
+\seealso{
+  \code{\link{startIGV}}
+}
+\examples{
+  exampleBams = file.path(system.file('extdata',package='SRAdb'),
+    dir(system.file('extdata',package='SRAdb'),pattern='bam$'))
+  IGVload(exampleBams)
+}
+\keyword{ IO }
