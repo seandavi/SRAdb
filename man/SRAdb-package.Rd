@@ -1,0 +1,77 @@
+\name{SRAdb-package}
+\alias{SRAdb-package}
+\alias{SRAdb}
+\docType{package}
+\title{Query NCBI SRA metadata within R or from a local SQLite database}
+\description{
+The Sequence Read Archive (SRA) represents largest public repository of sequencing data from the next generation of sequencing platforms including Roche 454 GS System, Illumina Genome Analyzer, Applied Biosystems SOLiD System, Helicos Heliscope, and others. However, finding data of interest can be challenging using current tools. SRAdb is an attempt to make access to the metadata associated with submission, study, sample, experiment and run much more feasible. This is accomplished by parsing all the NCBI SRA metadata into a SQLite database that can be stored and queried locally. SRAdb is simply a thin wrapper around the SQLite database along with associated tools and documentation. Fulltext search in the package make querying metadata very flexible and powerful.  Fastq files can be downloaded for doing alignment locally. Available BAM files in local or in the Meltzerlab sraDB can be loaded into IGV for visualization easily. The SQLite database is updated regularly as new data is added to SRA and can be downloaded at will for the most up-to-date metadata. 
+}
+\details{
+\tabular{ll}{
+Package: \tab SRAdb\cr
+Type: \tab Package\cr
+Version: \tab 1.0\cr
+Date: \tab 2010-03-10\cr
+License: \tab What license is it under?\cr
+LazyLoad: \tab yes\cr
+}
+}
+\author{
+Jack Zhu and Sean Davis
+
+Maintainer: Jack Zhu <zhujack@mail.nih.gov>
+}
+\references{
+http://watson.nci.nih.gov/~zhujack/SRAmetadb.sqlite.gz
+}
+\keyword{ package }
+\examples{
+if(file.exists('SRAmetadb.sqlite')) {
+  
+  library(SRAdb)
+  sra_dbname <- 'SRAmetadb.sqlite'	
+  sra_con <- dbConnect(dbDriver("SQLite"), sra_dbname)
+  
+  ## Get column descriptions
+  a <- colDescriptions(sra_con=sra_con)[1:5,]
+  
+  ## Convert SRA experiment accessions to other types
+  b <- sraConvert( in_acc=c(" SRR000137", "SRR000138 "), out_type=c('sample'), sra_con=sra_con )
+  
+  ## Fulltext search SRA meta data using SQLite fts3 module
+  rs <- getSRA (search_terms ='breas* NEAR/2 can*', out_types=c('run','study'), sra_con=sra_con)
+  rs <- getSRA (search_terms ='breast', out_types=c('run','study'), sra_con=sra_con)
+  rs <- getSRA (search_terms ='"breas* can*"', out_types=c('study'), sra_con=sra_con) 
+  rs <- getSRA (search_terms ='MCF7 OR "MCF-7"', out_types=c('sample'), sra_con=sra_con) 
+  rs <- getSRA (search_terms ='study_title: brea* can*', out_types=c('run','study'), sra_con=sra_con)  
+  rs <- getSRA (search_terms ='study_title: brea* can*', out_types=c('run','study'), sra_con=sra_con, acc_only=TRUE) 
+
+  ## List fastq files associated with each input SRA accessions
+  listFastq (in_acc=c("SRA000045"), sra_con=sra_con) 
+
+  ## Get file size and date from NCBI ftp site for available fastq files associated with input SRA accessions
+  getFastqInfo (in_acc=c("SRS012041","SRS000290"), sra_con=sra_con)
+
+  ## Download from NCBI SRA ftp site fastq files associated with input SRA accessions
+  getFastq (in_acc=c("SRR000648","SRR000657"), sra_con=sra_con, destdir=getwd()) 
+
+  ## Start IGV within R
+ \dontrun{startIGV(max_memory='mm')}
+
+  ## load BAM files to IGV
+  files = list.files(system.file('extdata', package = "SRAdb"), pattern='.bam$', full.names=TRUE)
+  \dontrun{load2IGV(files, locus='chr1:1-10000000', Merge=T))}
+
+   ## create a graphNEL object from SRA accessions, which are full text search results of terms 'colon cancer'
+  g <- sraGraph('colon cancer', sra_con)
+  attrs <- getDefaultAttrs(list(node=list(fillcolor='lightblue', shape='ellipse')))
+  plot(g, attrs=attrs)
+  
+  dbDisconnect(sra_con)
+
+} else {
+  print("use getSRAdbFile() to get a copy of the SRAmetadb.sqlite file
+and then rerun the example")
+}
+}
+

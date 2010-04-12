@@ -1,0 +1,34 @@
+1.1.6	2010-03-13
+
+	o New package
+	
+1.1.7	2010-03-16
+	o Added function entityGraph
+	o Added function sraGraph
+	o Modified related help pages
+
+1.1.8	2010-03-17
+	o Made various changes according to the reviewer's comments
+	o More examples executable
+	o Fixed some bugs
+	o Added more help contents
+
+1.1.9	2010-03-20
+	o Change argument of destdir  in getFastq to be required
+	o Fixed some bugs
+	o Imporoved help contents
+
+1.1.10	2010-03-21
+	o Fixed some bugs
+
+1.1.11	2010-04-10
+	o Use 'TRUE' rather than 'T'
+    o Format SQL consistently as SELECT * FROM table, etc.
+    o Avoid long lines in code
+    o Use message() rather than print() or cat() to communicate with
+      user
+    o Expose 'method' argument of download.file
+
+
+
+	
