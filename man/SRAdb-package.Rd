@@ -59,8 +59,20 @@ if(file.exists('SRAmetadb.sqlite')) {
  \dontrun{startIGV(max_memory='mm')}
 
   ## load BAM files to IGV
-  files = list.files(system.file('extdata', package = "SRAdb"), pattern='.bam$', full.names=TRUE)
-  \dontrun{load2IGV(files, locus='chr1:1-10000000', Merge=T))}
+  exampleBams = file.path(system.file('extdata',package='SRAdb'), dir(system.file('extdata',package='SRAdb'),pattern='bam$'))
+  IGVload(exampleBams)
+  
+  ## Change the IGV genome
+  IGVgenome(genome='hg18')
+
+  ## Go to a specified region in IGV
+  IGVgoto('chr1:1-10000')
+  IGVgoto('TP53')
+  
+  ## Make a snapshot of the current IGV window
+  IGVsnapshotDirectory()
+  IGVsnapshot()
+  dir()
 
    ## create a graphNEL object from SRA accessions, which are full text search results of terms 'colon cancer'
   g <- sraGraph('colon cancer', sra_con)
