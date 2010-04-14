@@ -30,8 +30,10 @@ Sean Davis <sdavis2@mail.nih.gov>
 \code{\link{startIGV}}
 }
 \examples{
-IGVsnapshotDirectory()
-IGVsnapshot()
-dir()
+  \dontrun{
+  IGVsnapshotDirectory()
+  IGVsnapshot()
+  dir()
+  }
 }
 \keyword{ IO }

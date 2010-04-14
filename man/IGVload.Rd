@@ -30,8 +30,10 @@ Sean Davis <sdavis2@mail.nih.gov>
   \code{\link{startIGV}}
 }
 \examples{
+  \dontrun{
   exampleBams = file.path(system.file('extdata',package='SRAdb'),
     dir(system.file('extdata',package='SRAdb'),pattern='bam$'))
   IGVload(exampleBams)
+  }
 }
 \keyword{ IO }
