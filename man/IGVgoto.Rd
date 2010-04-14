@@ -31,7 +31,9 @@ Sean Davis <sdavis2@mail.nih.gov>
 \code{\link{startIGV}}, ~~~
 }
 \examples{
-IGVgoto('chr1:1-10000')
-IGVgoto('TP53')
+  \dontrun{
+  IGVgoto('chr1:1-10000')
+  IGVgoto('TP53')
+  }
 }
 \keyword{ IO }
