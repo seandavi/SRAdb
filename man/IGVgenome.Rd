@@ -31,6 +31,8 @@ Sean Davis <sdavis2@mail.nih.gov>
 \code{\link{startIGV}}
 }
 \examples{
+\dontrun{
 IGVgenome(genome='hg18')
+}
 }
 \keyword{ IO }
