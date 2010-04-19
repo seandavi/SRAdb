@@ -34,8 +34,11 @@ if(file.exists('SRAmetadb.sqlite')) {
 	## create a graphNEL object from SRA accessions, which are full text search results of terms 'colon cancer'
   	acc <- getSRA (search_terms ='colon cancer', out_types=c('sra'), sra_con=sra_con, acc_only=TRUE) 
   	d <- entityGraph(acc)
+  	\dontrun{
+  	library(Rgraphviz)
   	attrs <- getDefaultAttrs(list(node=list(fillcolor='lightblue', shape='ellipse')))
   	plot(g, attrs= attrs)
+  	}
 
 } else {
   	print("use getSRAdbFile() to get a copy of the SRAmetadb.sqlite file

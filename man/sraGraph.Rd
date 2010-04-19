@@ -44,8 +44,10 @@ if(file.exists('SRAmetadb.sqlite')) {
 
 	## similiar search as the above, returned much larger data.frame and graph is too clouded
 	g <- sraGraph('colon', sra_con)
+	\dontrun{
+  	library(Rgraphviz)
 	plot(g)	
-
+	}
 } else {
 	print("use getSRAdbFile() to get a copy of the SRAmetadb.sqlite file
 	and then rerun the example")
