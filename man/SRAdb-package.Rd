@@ -81,9 +81,11 @@ if(file.exists('SRAmetadb.sqlite')) {
   }
    ## create a graphNEL object from SRA accessions, which are full text search results of terms 'colon cancer'
   g <- sraGraph('colon cancer', sra_con)
+  \dontrun{
+  library(Rgraphviz)
   attrs <- getDefaultAttrs(list(node=list(fillcolor='lightblue', shape='ellipse')))
   plot(g, attrs=attrs)
-  
+  }
   dbDisconnect(sra_con)
 
 } else {
