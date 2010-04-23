@@ -201,6 +201,7 @@ exampleBams = file.path(system.file('extdata',package='SRAdb'),
 IGVgenome('hg18')
 IGVload(exampleBams)
 IGVgoto('chr1:1-1000')
+IGVsnapshot()
 @
 
 \section{Graphic view of SRA entities}
