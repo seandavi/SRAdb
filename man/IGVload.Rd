@@ -11,7 +11,7 @@ IGVload(files, port = 60151, host = "localhost")
 }
 \arguments{
   \item{files}{
-  Character vector of one or more filenames or urls to load.
+  Character vector of one or more filenames with full path or urls to load.
 }
   \item{port}{
   The port to which IGV is listening.
