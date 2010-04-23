@@ -75,7 +75,6 @@ if(file.exists('SRAmetadb.sqlite')) {
 
   ## Make a snapshot of the current IGV window
   \dontrun{  
-  IGVsnapshotDirectory()
   IGVsnapshot()
   dir()
   }
