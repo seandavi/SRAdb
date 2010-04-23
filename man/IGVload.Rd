@@ -31,8 +31,11 @@ Sean Davis <sdavis2@mail.nih.gov>
 }
 \examples{
   \dontrun{
+  ## Create a file list from example bam files in the package
   exampleBams = file.path(system.file('extdata',package='SRAdb'),
     dir(system.file('extdata',package='SRAdb'),pattern='bam$'))
+  
+  ## Load the bam files into IGV
   IGVload(exampleBams)
   }
 }
