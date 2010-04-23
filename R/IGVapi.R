@@ -33,11 +33,7 @@ IGVgenome <-
   }
 
 IGVsnapshot <-
-  function(fname="",port=60151,host='localhost') {
+  function(fname="",dirname=getwd(),port=60151,host='localhost') {
+	.socketWrite(paste('snapshotDirectory',dirname,'\n'),host,port)
     .socketWrite(paste('snapshot',fname,'\n'),host,port)
-  }
-
-IGVsnapshotDirectory <-
-  function(dirname=getwd(),port=60151,host='localhost') {
-    .socketWrite(paste('snapshotDirectory',dirname,'\n'),host,port)
   }
