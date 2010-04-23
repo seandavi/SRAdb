@@ -42,7 +42,9 @@ Jack Zhu <zhujack@mail.nih.gov>
 	    dir(system.file('extdata',package='SRAdb'),pattern='bam$'))
 	exampleSessionFile <- IGVsession(exampleBams, 'exampleBams.xml');
   	\dontrun{
-  	startIGV()
+  	## Start IGV within R. You only need one IGV instance with listen port 60151 open.
+    startIGV()
+	
 	## Wait until IGV fully launched and make sure the listen port for IGV is open (If not configured in IGV, follow these steops: IGV --> Perferences --> Advanced --> Check the checkbox 'Enable port' 60151.)
   	IGVload(exampleSessionFile)
   	}

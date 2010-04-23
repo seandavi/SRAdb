@@ -55,7 +55,7 @@ if(file.exists('SRAmetadb.sqlite')) {
   ## Download from NCBI SRA ftp site fastq files associated with input SRA accessions
   getFastq (in_acc=c("SRR000648","SRR000657"), sra_con=sra_con, destdir=getwd()) 
 
-  ## Start IGV within R
+  ## Start IGV from R if no IGV running
  \dontrun{startIGV(max_memory='mm')}
 
   ## load BAM files to IGV
@@ -78,13 +78,16 @@ if(file.exists('SRAmetadb.sqlite')) {
   IGVsnapshot()
   dir()
   }
-   ## create a graphNEL object from SRA accessions, which are full text search results of terms 'colon cancer'
+  
+  ## create a graphNEL object from SRA accessions, which are full text search results of terms 'colon cancer'
   g <- sraGraph('colon cancer', sra_con)
+  
   \dontrun{
   library(Rgraphviz)
   attrs <- getDefaultAttrs(list(node=list(fillcolor='lightblue', shape='ellipse')))
   plot(g, attrs=attrs)
   }
+  
   dbDisconnect(sra_con)
 
 } else {

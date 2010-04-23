@@ -34,6 +34,7 @@ Sean Davis <sdavis2@mail.nih.gov>
 }
 \examples{
   \dontrun{
+  ## Create a snapshot of the current IGV window, which is usually the first launched IGV with listen port 60151 open
   IGVsnapshot()
   dir()
   }
