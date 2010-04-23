@@ -35,6 +35,16 @@
     o IGVload, IGVgenome, IGVgoto, and IGVsnapshot introduced as 
       replacements for the single load2... commands
 
+1.3.0	2010-04-22
+    o New version for bioc-dev 2.7
+
+1.3.1	2010-04-23
+    o Added IGVsession function
+    o Moved IGVsnapshotDirectory functionality into IGVsnapshot
+    o Removed IGVsnapshotDirectory
+    o Modified all corresponding help pages
+ 
+
 
 
 
