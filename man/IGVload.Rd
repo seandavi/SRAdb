@@ -11,7 +11,7 @@ IGVload(files, port = 60151, host = "localhost")
 }
 \arguments{
   \item{files}{
-  Character vector of one or more filenames with full path or urls to load.
+  Character vector of one or more filenames with full path or urls to load. Among supported file types are BAM and IGV session file, for other file types  please check IGV web site: http://www.broadinstitute.org/igv/ControlIGV.
 }
   \item{port}{
   The port to which IGV is listening.
