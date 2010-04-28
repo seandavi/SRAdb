@@ -5,12 +5,15 @@
 This function is to start the Integrative Genomics Viewer (IGV) within R, which is a high-performance visualization tool for interactive exploration of large, integrated datasets. It supports a wide variety of data types including sequence alignments, microarrays, and genomic annotations. In the SRAdb, functions of load2IGV and load2newIGV can be used to load BAM format of sequencing data into IGV conveniently. 
 }
 \usage{
-startIGV(max_memory = "mm")
+startIGV(memory = "mm", devel=FALSE)
 }
 \arguments{
-  \item{max_memory}{
-maximum usable memory support for the IGV to be launched, which is defined as the following: 'mm' - 1.2 GB 
+  \item{memory}{
+Maximum usable memory support for the IGV to be launched, which is defined as the following: 'mm' - 1.2 GB 
 , 'lm' - 2 GB, 'hm' - 10 GB, '' - 750 MB
+}
+  \item{devel}{
+Start development version of IGV.
 }
 }
 \details{
