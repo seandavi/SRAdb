@@ -1,39 +1,45 @@
-.safeSocketConnect <- function(host,port) {
+IGVsocket <- function(host='localhost', port=60151) {
   sock = try(make.socket(host,port))
   if(inherits(sock,'try-error')) {
     stop(sprintf("Make sure that IGV is running on host %s and that IGV is set to accept commands on port %d",host,port))
   }
+  print(sock)
   return(sock)
 }
 
 .socketWrite<-
-  function(string,host,port) {
-  sock=.safeSocketConnect(host,port)
+  function(sock,string) {
   print(string)
   write.socket(sock,string)
-  close.socket(sock)
+  response <- read.socket(sock)
+  return(response)
 }
     
 
 IGVload <-
-function (files, port=60151, host='localhost') {
+function (sock, files) {
   if(length(files)<1) stop('Files must be specified')
   message(basename(files))
-  .socketWrite(paste('load',paste(files,collapse=','),'\n'),host,port)
+  .socketWrite(sock,paste('load',paste(files,collapse=','),'\n'))
 }
 
 IGVgoto <-
-  function(region,port=60151,host='localhost') {
-    .socketWrite(paste('goto',region,'\n'),host,port)
+  function(sock,region) {
+    .socketWrite(sock, paste('goto',region,'\n'))
   }
 
 IGVgenome <-
-  function(genome="hg18",port=60151,host='localhost') {
-    .socketWrite(paste('genome',genome,'\n'),host,port)
+  function(sock,genome="hg18") {
+    .socketWrite(sock,paste('genome',genome,'\n'))
   }
 
 IGVsnapshot <-
-  function(fname="",dirname=getwd(),port=60151,host='localhost') {
-	.socketWrite(paste('snapshotDirectory',dirname,'\n'),host,port)
-    .socketWrite(paste('snapshot',fname,'\n'),host,port)
+  function(sock,fname="",dirname=getwd()) {
+	.socketWrite(sock,paste('snapshotDirectory',dirname,'\n'))
+    .socketWrite(sock, paste('snapshot',fname,'\n'))
+  }
+
+IGVclear <-
+  function(sock) {
+    .socketWrite(sock,paste('new \n'))
   }
