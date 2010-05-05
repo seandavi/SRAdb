@@ -7,14 +7,11 @@
   Clear IGV tracks loaded in the current IGV.
 }
 \usage{
-IGVclear(port = 60151, host = "localhost")
+IGVclear(sock)
 }
 \arguments{
-  \item{port}{
-  The port to which IGV is listening.
-}
-  \item{host}{
-  The host on which IGV is running.
+  \item{sock}{
+  A socket connection to IGV.
 }
 }
 \references{
@@ -32,11 +29,13 @@ Jack Zhu <zhujack@mail.nih.gov>
   exampleBams = file.path(system.file('extdata',package='SRAdb'),
     dir(system.file('extdata',package='SRAdb'),pattern='bam$'))
   
+  ##Create a socket connection to IGV
+  sock <- IGVsocket()
   ## Load the bam files into IGV
-  IGVload(exampleBams)
+  IGVload(sock, exampleBams)
 
   ## Clear loaded tracks in the current IGV
-  IGVclear()
+  IGVclear(sock)
   }
 }
 \keyword{ IO }

@@ -45,7 +45,9 @@ Jack Zhu <zhujack@mail.nih.gov>
   	## Start IGV within R. You only need one IGV instance with listen port 60151 open.
     startIGV()
 	
+	## Create a socket connection to IGV
+	sock <- IGVsocket()
 	## Wait until IGV fully launched and make sure the listen port for IGV is open (If not configured in IGV, follow these steops: IGV --> Perferences --> Advanced --> Check the checkbox 'Enable port' 60151.)
-  	IGVload(exampleSessionFile)
+  	IGVload(sock, exampleSessionFile)
   	}
 }

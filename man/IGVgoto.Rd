@@ -7,18 +7,15 @@
   Using the remote command port of IGV, go to a specified region.
 }
 \usage{
-IGVgoto(region, port = 60151, host = "localhost")
+IGVgoto(sock, region)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
+  \item{sock}{
+  A socket connection to IGV.
+}
   \item{region}{
   Scrolls to a locus. Use any text that is valid in the IGV search box.
-}
-  \item{port}{
-  The port on which IGV is listening.
-}
-  \item{host}{
-  The host on which IGV is running.
 }
 }
 \references{
@@ -28,12 +25,13 @@ http://www.broadinstitute.org/igv/PortCommands
 Sean Davis <sdavis2@mail.nih.gov>
 }
 \seealso{
-\code{\link{startIGV}}, ~~~
+\code{\link{startIGV}}, \code{\link{IGVload}}
 }
 \examples{
   \dontrun{
-  IGVgoto('chr1:1-10000')
-  IGVgoto('TP53')
+  sock <- IGVsocket()
+  IGVgoto(sock, 'chr1:1-10000')
+  IGVgoto(sock, 'TP53')
   }
 }
 \keyword{ IO }
