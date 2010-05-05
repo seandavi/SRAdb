@@ -61,21 +61,22 @@ if(file.exists('SRAmetadb.sqlite')) {
   ## load BAM files to IGV
   \dontrun{
   exampleBams = file.path(system.file('extdata',package='SRAdb'), dir(system.file('extdata',package='SRAdb'),pattern='bam$'))
-  IGVload(exampleBams)
+  sock <- IGVsocket()
+  IGVload(sock,exampleBams)
   }
   ## Change the IGV genome
   \dontrun{
-  IGVgenome(genome='hg18')
+  IGVgenome(sock,genome='hg18')
   }
   ## Go to a specified region in IGV
   \dontrun{
-  IGVgoto('chr1:1-10000')
-  IGVgoto('TP53')
+  IGVgoto(sock,'chr1:1-10000')
+  IGVgoto(sock,'TP53')
   }
 
   ## Make a snapshot of the current IGV window
   \dontrun{  
-  IGVsnapshot()
+  IGVsnapshot(sock)
   dir()
   }
   

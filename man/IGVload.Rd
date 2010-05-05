@@ -4,20 +4,17 @@
   Load data into IGV via remote port call.
 }
 \description{
-  Loads data via a remote call to IGV.  IGV is limited to accepting filenames only.
+  Loads data via a remote call to IGV.
 }
 \usage{
-IGVload(files, port = 60151, host = "localhost")
+IGVload(sock, files)
 }
 \arguments{
+  \item{sock}{
+  A socket connection to IGV.
+}
   \item{files}{
   Character vector of one or more filenames with full path or urls to load. Among supported file types are BAM and IGV session file, for other file types  please check IGV web site: http://www.broadinstitute.org/igv/ControlIGV.
-}
-  \item{port}{
-  The port to which IGV is listening.
-}
-  \item{host}{
-  The host on which IGV is running.
 }
 }
 \references{
@@ -27,7 +24,7 @@ http://www.broadinstitute.org/igv/PortCommands
 Sean Davis <sdavis2@mail.nih.gov>
 }
 \seealso{
-  \code{\link{startIGV}}
+  \code{\link{startIGV}}, \code{\link{IGVsocket}}
 }
 \examples{
   \dontrun{
@@ -35,8 +32,10 @@ Sean Davis <sdavis2@mail.nih.gov>
   exampleBams = file.path(system.file('extdata',package='SRAdb'),
     dir(system.file('extdata',package='SRAdb'),pattern='bam$'))
   
+  ## Create a socket connection to IGV
+  sock <- IGVsocket()
   ## Load the bam files into IGV
-  IGVload(exampleBams)
+  IGVload(sock, exampleBams)
   }
 }
 \keyword{ IO }

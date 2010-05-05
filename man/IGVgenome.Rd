@@ -7,18 +7,15 @@
   Set the IGV genome via the remote command port.
 }
 \usage{
-IGVgenome(genome="hg18", port = 60151, host = "localhost")
+IGVgenome(sock, genome="hg18")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
+  \item{sock}{
+  A socket connection to IGV.
+}
   \item{genome}{
   String representing a genome that IGV knows about.
-}
-  \item{port}{
-  The port on which IGV is listening.
-}
-  \item{host}{
-  The host on which IGV is running.
 }
 }
 \references{
@@ -32,7 +29,8 @@ Sean Davis <sdavis2@mail.nih.gov>
 }
 \examples{
 \dontrun{
-IGVgenome(genome='hg18')
+sock <- IGVsocket()
+IGVgenome(sock, genome='hg18')
 }
 }
 \keyword{ IO }

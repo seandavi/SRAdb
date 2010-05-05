@@ -198,10 +198,11 @@ IGV offers a remort control port that allows R to communicate with IGV.  The cur
 <<eval=false>>=
 exampleBams = file.path(system.file('extdata',package='SRAdb'),
   dir(system.file('extdata',package='SRAdb'),pattern='bam$'))
-IGVgenome('hg18')
-IGVload(exampleBams)
-IGVgoto('chr1:1-1000')
-IGVsnapshot()
+sock <- IGVsocket()
+IGVgenome(sock, 'hg18')
+IGVload(sock, exampleBams)
+IGVgoto(sock, 'chr1:1-1000')
+IGVsnapshot(sock)
 @
 
 \section{Graphic view of SRA entities}
