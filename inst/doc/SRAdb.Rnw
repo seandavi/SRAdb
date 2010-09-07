@@ -170,12 +170,12 @@ dim(rs)
 \subsection{Get fastq file information}
 
 List fastq file names including ftp addresses associated with "SRA000045":
-<<>>=
+<<eval=false>>=
 listFastq ("SRA011804", sra_con=sra_con) 
 @
 
 The above function does not check file availability, size and date of the fastq files on the server, but the function getFastqInfo does this, which is good to know if you are  preparing to download them:
-<<>>=
+<<eval=false>>=
 rs <- getFastqInfo (in_acc=c("SRA011804"), sra_con=sra_con)
 rs[1:3,]
 @
