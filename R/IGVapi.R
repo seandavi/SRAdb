@@ -43,3 +43,14 @@ IGVclear <-
   function(sock) {
     .socketWrite(sock,paste('new \n'))
   }
+
+## option can be base, position, strand, quality, sample, and readGroup
+IGVsort <-
+  function(sock, option) {
+    .socketWrite(sock,paste('sort', option,'\n'))
+  }
+  
+ IGVcollapse <-
+  function(sock) {
+    .socketWrite(sock,paste('collapse \n'))
+  }
