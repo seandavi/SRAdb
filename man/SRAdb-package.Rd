@@ -47,16 +47,19 @@ if(file.exists('SRAmetadb.sqlite')) {
   rs <- getSRA (search_terms ='study_title: brea* can*', out_types=c('run','study'), sra_con=sra_con, acc_only=TRUE) 
 
   ## List fastq files associated with each input SRA accessions
+  \dontrun{
   listFastq (in_acc=c("SRA000045"), sra_con=sra_con) 
-
+	}
   ## Get file size and date from NCBI ftp site for available fastq files associated with input SRA accessions
-  getFastqInfo (in_acc=c("SRS012041","SRS000290"), sra_con=sra_con)
-
-  ## Download from NCBI SRA ftp site fastq files associated with input SRA accessions
-  getFastq (in_acc=c("SRR000648","SRR000657"), sra_con=sra_con, destdir=getwd()) 
-
+	\dontrun{  
+	getFastqInfo (in_acc=c("SRS012041","SRS000290"), sra_con=sra_con)
+	}
+	  ## Download from NCBI SRA ftp site fastq files associated with input SRA accessions
+	\dontrun{
+	  getFastq (in_acc=c("SRR000648","SRR000657"), sra_con=sra_con, destdir=getwd()) 
+	}
   ## Start IGV from R if no IGV running
- \dontrun{startIGV(max_memory='mm')}
+ \dontrun{startIGV(memory='mm')}
 
   ## load BAM files to IGV
   \dontrun{
