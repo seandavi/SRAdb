@@ -12,28 +12,34 @@ function (in_acc, sra_con) {
 	for( i in 1:dim(sra_acc)[1] ) {	
 		library_layout1 <-
             library_layout[library_layout[,1]== sra_acc$run[i],2]
+		
+		fastqFileDir <- paste('ftp://ftp.ncbi.nih.gov/sra/static/',
+                    substring(sra_acc$experiment[i], 1, 6), '/',
+                    sra_acc$experiment[i], '/', sep='')
+		## Check fastq file type
+		require(RCurl)
+		fastqFiles= getURL(fastqFileDir)			
+		if( grepl("fastq.bz2", fastqFiles) ) {
+			fastqType <- '.fastq.bz2';
+		} else {
+			fastqType <- '.fastq.gz';
+		}
+		
 		if ( is.na(sra_acc$run[i]) ) {
 			ftp1 <- c(sra_acc[i,1], NA)
 			ftp <- rbind(ftp,ftp1)
 		} else if (library_layout1=='SINGLE') {
 			ftp1 <- c(sra_acc[i,1],
-                      paste('ftp://ftp.ncbi.nih.gov/sra/static/',
-                            substring(sra_acc$experiment[i], 1, 6), '/',
-                            sra_acc$experiment[i], '/',
-                            sra_acc$run[i] , '.fastq.gz', sep=''))
+                      paste(fastqFileDir,
+                            sra_acc$run[i] , fastqType, sep=''))
 
 			ftp <- rbind(ftp,ftp1)
 		} else {
 			ftp1 <- c(sra_acc[i,1],
-                      paste('ftp://ftp.ncbi.nih.gov/sra/static/',
-                            substring(sra_acc$experiment[i], 1, 6), '/',
-                            sra_acc$experiment[i], '/',
-                            sra_acc$run[i] , '_1.fastq.gz', sep=''))
+                      paste(fastqFileDir,
+                            sra_acc$run[i] , fastqType, sep=''))
 			ftp2 <- c(sra_acc[i,1],
-                      paste('ftp://ftp.ncbi.nih.gov/sra/static/',
-                            substring(sra_acc$experiment[i], 1, 6), '/',
-                            sra_acc$experiment[i], '/',
-                            sra_acc$run[i] , '_2.fastq.gz', sep=''))
+                      paste(fastqFileDir, fastqType, sep=''))
 			ftp <- rbind(ftp,ftp1,ftp2)		
 		}
 	}
