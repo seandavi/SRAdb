@@ -44,6 +44,10 @@
     o Removed IGVsnapshotDirectory
     o Modified all corresponding help pages
  
+1.3.2	2010-09-07
+    o Added IGVsort function
+    o Added IGVcollapse function
+    o Added function to check fastq file type inside of listFastq
 
 
 
