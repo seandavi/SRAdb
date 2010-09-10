@@ -24,7 +24,7 @@ http://www.broadinstitute.org/igv/PortCommands
 Sean Davis <sdavis2@mail.nih.gov>
 }
 \seealso{
-  \code{\link{startIGV}}, \code{\link{IGVsocket}}
+  \code{\link{startIGV}}, \code{\link{IGVgoto}}
 }
 \examples{
   \dontrun{
