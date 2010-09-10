@@ -17,7 +17,7 @@ function (in_acc, sra_con) {
                     substring(sra_acc$experiment[i], 1, 6), '/',
                     sra_acc$experiment[i], '/', sep='')
 		## Check fastq file type
-		require(RCurl)
+		## require(RCurl)
 		fastqFiles= getURL(fastqFileDir)			
 		if( grepl("fastq.bz2", fastqFiles) ) {
 			fastqType <- '.fastq.bz2';
