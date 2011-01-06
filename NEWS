@@ -49,8 +49,13 @@
     o Added IGVcollapse function
     o Added function to check fastq file type inside of listFastq
 
+1.5.0	2010-10-18
+    o Added IGVsession function
 
-
-
+1.5.1	2011-01-06
+    o Removed functions of listFastq, getFastqInfo, getFastq
+    o Added listSRAfile function
+    o Added getSRAinfo function
+    o Added getSRAfile function
 
 	

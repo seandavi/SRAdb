@@ -28,7 +28,7 @@ A data.frame containing all matched SRA accessions.
 Jack Zhu <zhujack@mail.nih.gov>
 }
 \seealso{
-\code{\link{getSRA}}, \code{\link{listFastq}}, \code{\link{getFastqInfo}}
+\code{\link{getSRA}}, \code{\link{listSRAfile}}, \code{\link{getSRAinfo}}
 }
 \examples{
 if(file.exists('SRAmetadb.sqlite')) {
@@ -39,7 +39,7 @@ if(file.exists('SRAmetadb.sqlite')) {
 
 	## Convert SRA experiment accessions to other types
 	a <- sraConvert( in_acc=c(" SRR000137", "SRR000138 "), out_type=c('sample'), sra_con=sra_con )
-	b <- sraConvert (in_acc=c("SRA000045"), sra_con=sra_con) 
+	b <- sraConvert (in_acc=c("SRX000089"), sra_con=sra_con) 
 
 } else {
   	print("use getSRAdbFile() to get a copy of the SRAmetadb.sqlite file
