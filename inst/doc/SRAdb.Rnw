@@ -20,16 +20,14 @@
 \newcommand{\Rmethod}[1]{{\textit{#1}}}
 \newcommand{\Rfunarg}[1]{{\textit{#1}}}
 
+\begin{document}
 \title{Using the \Rpackage{SRAdb} Package to Query the Sequence Read Archive}
-
 \author{Jack Zhu\footnote{zhujack@mail.nih.gov} and Sean Davis\footnote{sdavis2@mail.nih.gov}\\
   \\
   Genetics Branch, Center for Cancer Research,\\
   National Cancer Institute,\\
   National Institutes of Health
   }
-
-\begin{document}
 
 <<init, echo=FALSE>>=
 options(width=50)
@@ -167,22 +165,22 @@ rs <- getSRA (search_terms ='Carcino*', out_types=c('study'), sra_con=sra_con)
 dim(rs)
 @
 
-\subsection{Get fastq file information}
+\subsection{Get sra or sra-lite data file information}
 
-List fastq file names including ftp addresses associated with "SRA000045":
+List sra-lite data file names including ftp addresses associated with "SRX000122":
 <<eval=false>>=
-listFastq ("SRA011804", sra_con=sra_con) 
+listSRAfile ("SRX000122", sra_con=sra_con, sraType='litesra') 
 @
 
-The above function does not check file availability, size and date of the fastq files on the server, but the function getFastqInfo does this, which is good to know if you are  preparing to download them:
+The above function does not check file availability, size and date of the sra or sra-lite data files on the server, but the function getSRAinfo does this, which is good to know if you are  preparing to download them:
 <<eval=false>>=
-rs <- getFastqInfo (in_acc=c("SRA011804"), sra_con=sra_con)
+rs <- getSRAinfo (in_acc=c("SRX000122"), sra_con=sra_con)
 rs[1:3,]
 @
 
-Next you might want to download fastq files from the ftp site.  The getFastq function will download all available fastq files associated with "SRR000648" and "SRR000657" from NCBI SRA ftp site to a new folder in current directory:
+Next you might want to download sra or sra-lite data files from the ftp site.  The getSRAfile function will download all available sra or sra-lite data files associated with "SRR000648" and "SRR000657" from NCBI SRA ftp site to a new folder in current directory:
 <<eval=false>>=
-getFastq (in_acc=c("SRR000648","SRR000657"), sra_con=sra_con, destdir=getwd())
+getSRAfile (in_acc=c("SRR000648","SRR000657"), sra_con=sra_con, destdir=getwd(), sraType='litesra')
 @
 
 \section{Interactive views of sequence data}
