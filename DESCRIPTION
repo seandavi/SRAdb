@@ -3,8 +3,8 @@ Type: Package
 Title: A compilation of metadata from NCBI SRA and tools
 Version: 1.5.1
 Date: 2011-01-05
-Depends: RSQLite (>= 0.8-4) , graph
-Imports: RCurl , GEOquery
+Depends: RSQLite (>= 0.8-4) , graph, RCurl
+Imports: GEOquery
 Suggests: Rgraphviz
 Author: Jack Zhu and Sean Davis
 Maintainer: Jack Zhu <zhujack@mail.nih.gov>
