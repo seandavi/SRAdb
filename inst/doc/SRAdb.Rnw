@@ -8,6 +8,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[12pt]{article}
 \usepackage{amsmath,pstricks,fullpage}
+% With MikTeX 2.9, using pstricks also requires using auto-pst-pdf or running
+% pdflatex will fail. Note that using auto-pst-pdf requires to set environment
+% variable MIKTEX_ENABLEWRITE18=t on Windows, and to set shell_escape = t in
+% texmf.cnf for Tex Live on Unix/Linux/Mac.
+\usepackage{auto-pst-pdf}
 \usepackage{hyperref}
 
 \newcommand{\R}{{\textsf{R}}}
