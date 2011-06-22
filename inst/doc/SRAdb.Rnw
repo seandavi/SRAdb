@@ -74,12 +74,8 @@ For further details, at this time see \code{help('SRAdb-package')}.
 \section{Using the \Rpackage{SRAdb} package}
 
 \subsection{Interacting with the database}
-The functionality covered in this section is covered in much more detail in the \Rpackage{DBI} and \Rpackage{RSQLite} package documentation.  We cover enough here only to be useful.  Again, we connect to the database.
-<<>>=
-sra_con <- dbConnect(SQLite(),'SRAmetadb.sqlite')
-@ 
-
-The \Rfunction{dbListTables} function lists all the tables in the SQLite database handled by the connection object \Robject{sra\_con}.  
+The functionality covered in this section is covered in much more detail in the \Rpackage{DBI} and \Rpackage{RSQLite} package documentation.  We cover enough here only to be useful.
+The \Rfunction{dbListTables} function lists all the tables in the SQLite database handled by the connection object \Robject{sra\_con} created in the previous section.
 <<>>=
 sra_tables <- dbListTables(sra_con)
 sra_tables
@@ -226,6 +222,12 @@ g <- sraGraph('colon cancer', sra_con)
 library(Rgraphviz)
 attrs <- getDefaultAttrs(list(node=list(fillcolor='lightblue', shape='ellipse')))
 plot(g, attrs=attrs)
+@
+
+It's considered good practise to explicitely disconnect from the database
+once we are done with it:
+<<>>=
+dbDisconnect(sra_con)
 @
 
 \section{sessionInfo}
