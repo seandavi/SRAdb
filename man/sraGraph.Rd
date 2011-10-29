@@ -43,7 +43,7 @@ if(file.exists('SRAmetadb.sqlite')) {
 	plot(g, attrs=attrs)
 
 	## similiar search as the above, returned much larger data.frame and graph is too clouded
-	g <- sraGraph('colon', sra_con)
+	g <- sraGraph('Ewing Sarcoma', sra_con)
 	\dontrun{
   	library(Rgraphviz)
 	plot(g)	

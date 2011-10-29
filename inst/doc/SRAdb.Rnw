@@ -218,7 +218,7 @@ plot(g, attrs= attrs)
 
 Create a graphNEL object directly from full text search results of terms 'colon cancer'
 <<eval=false>>=
-g <- sraGraph('colon cancer', sra_con)
+g <- sraGraph('Ewing Sarcoma', sra_con)
 library(Rgraphviz)
 attrs <- getDefaultAttrs(list(node=list(fillcolor='lightblue', shape='ellipse')))
 plot(g, attrs=attrs)
