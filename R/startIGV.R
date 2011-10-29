@@ -13,10 +13,10 @@ function (memory='mm', devel=FALSE) {
 		memory1 = ''
 	}
 	if(devel) {
-		startIGV_url <- paste('http://www.broadinstitute.org/igvdata/jws/dev/igv',
+		startIGV_url <- paste('http://www.broadinstitute.org/igv/projects/dev/igv_',
               memory1,'_dev.jnlp', sep='')
 	} else {
-		startIGV_url <- paste('http://www.broadinstitute.org/igvdata/jws/prod/igv',
+		startIGV_url <- paste('http://www.broadinstitute.org/igv/projects/current/igv_',
               memory1,'.jnlp', sep='')
     }
 	browseURL(startIGV_url)	
