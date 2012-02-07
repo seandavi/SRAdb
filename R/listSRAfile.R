@@ -1,34 +1,60 @@
+## listSRAfile is to list ftp addresses or ascp sources of sra or lite.sra files
+## options for fileType: 'litesra', 'sra', 'fastq'
+## srcType: 'ftp' or 'fasp' 
+
+## ftp example:
+# ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByExp/sra/SRX/SRX037/SRX037195/SRR089790/SRR089790.sra
+# ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByExp/litesra/SRX/SRX037/SRX037195/SRR089790/SRR089790.lite.sra
+
+## fasp example::
+#  anonftp@ftp-trace.ncbi.nlm.nih.gov:/sra/sra-instant/reads/ByExp/litesra/SRX/SRX000/SRX000122/SRR000657/SRR000657.lite.sra 
+# listSRAfile (in_acc=c("SRX000122"), sra_con=sra_con, fileType='fastq', srcType='fasp')
+
 listSRAfile <-
-function (in_acc, sra_con, sraType='litesra') {
-    ##sra file ftp example: ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByExp/sra/SRX/SRX037/SRX037195/SRR089790/SRR089790.sra
-    ##sra lite file ftp example:  ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByExp/litesra/SRX/SRX037/SRX037195/SRR089790/SRR089790.lite.sra
-      
-      if( sraType == 'litesra' ) { sraExt <- '.lite.sra'; } else { sraExt <- '.sra';}
-	sra_acc  <- sraConvert (in_acc, out_type = c('experiment','run'),
-                            sra_con= sra_con)
-	
-	ftp=NULL
-	for( i in 1:nrow(sra_acc) ) {			
-		sraFileDir<- paste('ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByExp/', sraType, 
-				'/',
-				substring(sra_acc$experiment[i], 1, 3), '/',
-				substring(sra_acc$experiment[i], 1, 6), '/',
-				sra_acc$experiment[i], '/', 
-				sra_acc$run[i], '/',
-				sep='')
-				
-		if ( is.na(sra_acc$run[i]) ) {
-			ftp1 <- c(sra_acc[i,1], NA)
-		} else {
-			ftp1 <- c(sra_acc[i,1],
-                      paste(sraFileDir, sra_acc$run[i] , sraExt, sep=''))			
+function (in_acc, sra_con, fileType='litesra', srcType='ftp') {
+	if( fileType == 'fastq' ) {
+		sra_acc = sraConvert( in_acc, out_type=c('run'), sra_con )
+		sraFiles = getFASTQinfo (sra_acc$run, srcType)
+	} else if (fileType == 'litesra' | fileType == 'sra') {
+		
+		if( fileType == 'litesra' ) { sraExt <- '.lite.sra'; } else { sraExt <- '.sra';}
+		sra_acc  <- sraConvert (in_acc, out_type = c('study','sample','experiment','run'),
+	                            sra_con= sra_con)	
+		
+		sraFiles=NULL
+		if (srcType == 'fasp') {
+			srcMain = 'anonftp@ftp-trace.ncbi.nlm.nih.gov:'
+		} else if (srcType == 'ftp') {
+			srcMain = 'ftp://ftp-trace.ncbi.nlm.nih.gov'
 		}
-		ftp <- rbind(ftp,ftp1)
- 	}
+		
+		for( i in 1:nrow(sra_acc) ) {			
+			sraFileDir<- paste(srcMain, '/sra/sra-instant/reads/ByExp/', fileType, 
+					'/',
+					substring(sra_acc$experiment[i], 1, 3), '/',
+					substring(sra_acc$experiment[i], 1, 6), '/',
+					sra_acc$experiment[i], '/', 
+					sra_acc$run[i], '/',
+					sep='')
+				
+			if ( is.na(sra_acc$run[i]) ) {
+				sraFiles1 <- c(sra_acc[i,], NA)
+			} else {
+				sraFiles1 <- c(sra_acc[i,],
+	                      paste(sraFileDir, sra_acc$run[i] , sraExt, sep=''))			
+			}
+			sraFiles <- rbind(sraFiles,sraFiles1)
+	 	}
 	
-	colnames(ftp) <- c(names(sra_acc)[1],'sra')
-	rownames(ftp) <- NULL
-	ftp <- as.data.frame(ftp, stringsAsFactors=FALSE)
-	return(ftp);
+		colnames(sraFiles) <- c(names(sra_acc), srcType)
+		rownames(sraFiles) <- NULL
+		sraFiles <- as.data.frame(sraFiles, stringsAsFactors=FALSE)	
+	} 
+	return(sraFiles);
 }
+
+
+
+
+
 

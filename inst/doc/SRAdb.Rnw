@@ -113,7 +113,7 @@ getTableCounts <- function(tableName,conn) {
   sql <- sprintf("select count(*) from %s",tableName)
   return(dbGetQuery(conn,sql)[1,1])
 }
-do.call(rbind,sapply(sra_tables,getTableCounts,sra_con,simplify=FALSE))
+do.call(rbind,sapply(sra_tables[1:3],getTableCounts,sra_con,simplify=FALSE))
 @ 
 
 
@@ -208,17 +208,17 @@ IGVsnapshot(sock)
 
 Due to the nature of SRA data and its design, sometimes it is hard to get a whole picture of the relationship between a set of SRA entities. Functions of \Rfunction{entityGraph} and \Rfunction{sraGraph} in this package generate graphNEL objects with edgemode='directed' from input data.frame or directly from search terms, and then the \Rfunction{plot} function can easily draw a graph.
 
-Create a graphNEL object from SRA accessions, which are full text search results of terms 'colon cancer'
+Create a graphNEL object from SRA accessions, which are full text search results of terms 'primary thyroid cell line'
 <<eval=false>>=
-acc <- getSRA (search_terms ='colon cancer', out_types=c('sra'), sra_con=sra_con, acc_only=TRUE) 
+acc <- getSRA (search_terms ='primary thyroid cell line', out_types=c('sra'), sra_con=sra_con, acc_only=TRUE) 
 g <- entityGraph(acc)
 attrs <- getDefaultAttrs(list(node=list(fillcolor='lightblue', shape='ellipse')))
 plot(g, attrs= attrs)  
 @
 
-Create a graphNEL object directly from full text search results of terms 'colon cancer'
+Create a graphNEL object directly from full text search results of terms 'primary thyroid cell line'
 <<eval=false>>=
-g <- sraGraph('Ewing Sarcoma', sra_con)
+g <- sraGraph('primary thyroid cell line', sra_con)
 library(Rgraphviz)
 attrs <- getDefaultAttrs(list(node=list(fillcolor='lightblue', shape='ellipse')))
 plot(g, attrs=attrs)
