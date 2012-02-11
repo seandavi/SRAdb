@@ -1,6 +1,6 @@
 getSRAinfo <-
-function (in_acc, sra_con, sraType='litesra') {
-	sraFile <- listSRAfile(in_acc, sra_con=sra_con, sraType)
+function( in_acc, sra_con, sraType = 'litesra' ) {
+	sraFile <- listSRAfile(in_acc, sra_con=sra_con, fileType=sraType, srcType='ftp')
 	sraFileDir <- paste(na.omit(unique(dirname(sraFile$ftp))), '/',
                           sep='')
 
@@ -33,7 +33,7 @@ function (in_acc, sra_con, sraType='litesra') {
         as.data.frame(cbind('file_name'=file_name,
                             'size(KB)'=file_size, 'date'=file_date))
 	sraFileInfo <-
-        merge(sraFile, file_info, by.x="sra", by.y="file_name",
+        merge(sraFile, file_info, by.x="ftp", by.y="file_name",
               all.x=TRUE)
 	
 	return(sraFileInfo)

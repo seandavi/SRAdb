@@ -1,4 +1,4 @@
-## getFASTQinfo is to get Fastq information from ebi web site
+## getFASTQinfo is to get Fastq information from EBI web site
 ## in_acc: can be one or more these types: study,sample, experiment, run
 ## srcType can be 'ftp' or 'fasp'
 
@@ -9,7 +9,6 @@
 # ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR392/SRR392120/SRR392120.fastq.gz
 
 # getFASTQinfo (in_acc=c("SRR000648","SRR000657"), srcType='fasp')
-
 
 getFASTQinfo <-
 function (in_acc, srcType = 'ftp') {

@@ -35,7 +35,6 @@ function (in_acc, destDir=getwd(), srcType='ftp', makeDirectory=FALSE, method='c
 		
 		ascpR (ascpCMD, sraFiles$fasp, destDir)	
 	}
-     return(sraFiles)
-	
+     return(sraFiles)	
 }
 

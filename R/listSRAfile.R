@@ -11,7 +11,7 @@
 # listSRAfile (in_acc=c("SRX000122"), sra_con=sra_con, fileType='fastq', srcType='fasp')
 
 listSRAfile <-
-function (in_acc, sra_con, fileType='litesra', srcType='ftp') {
+function( in_acc, sra_con, fileType='litesra', srcType='ftp' ) {
 	if( fileType == 'fastq' ) {
 		sra_acc = sraConvert( in_acc, out_type=c('run'), sra_con )
 		sraFiles = getFASTQinfo (sra_acc$run, srcType)
@@ -21,13 +21,13 @@ function (in_acc, sra_con, fileType='litesra', srcType='ftp') {
 		sra_acc  <- sraConvert (in_acc, out_type = c('study','sample','experiment','run'),
 	                            sra_con= sra_con)	
 		
-		sraFiles=NULL
 		if (srcType == 'fasp') {
 			srcMain = 'anonftp@ftp-trace.ncbi.nlm.nih.gov:'
 		} else if (srcType == 'ftp') {
 			srcMain = 'ftp://ftp-trace.ncbi.nlm.nih.gov'
 		}
 		
+		sraFiles_1=NULL
 		for( i in 1:nrow(sra_acc) ) {			
 			sraFileDir<- paste(srcMain, '/sra/sra-instant/reads/ByExp/', fileType, 
 					'/',
@@ -38,17 +38,15 @@ function (in_acc, sra_con, fileType='litesra', srcType='ftp') {
 					sep='')
 				
 			if ( is.na(sra_acc$run[i]) ) {
-				sraFiles1 <- c(sra_acc[i,], NA)
+				sraFiles1 <- NA
 			} else {
-				sraFiles1 <- c(sra_acc[i,],
-	                      paste(sraFileDir, sra_acc$run[i] , sraExt, sep=''))			
+				sraFiles1 <- paste(sraFileDir, sra_acc$run[i] , sraExt, sep='')			
 			}
-			sraFiles <- rbind(sraFiles,sraFiles1)
+			sraFiles_1=c(sraFiles_1, sraFiles1)
 	 	}
-	
+		
+		sraFiles <- cbind(sra_acc, sraFiles_1, stringsAsFactors=FALSE)	
 		colnames(sraFiles) <- c(names(sra_acc), srcType)
-		rownames(sraFiles) <- NULL
-		sraFiles <- as.data.frame(sraFiles, stringsAsFactors=FALSE)	
 	} 
 	return(sraFiles);
 }

@@ -12,9 +12,9 @@
 #ascp -QT -l 300m -i /usr/local/aspera/connect/etc/asperaweb_id_dsa.putty anonftp@ftp-trace.ncbi.nlm.nih.gov:/sra/sra-instant/reads/ByExp/litesra/SRX/SRX000/SRX000122/SRR000657/SRR000657.lite.sra .
 #/usr/local/bin/ascp -QT -l 300m -i /usr/local/aspera/connect/etc/asperaweb_id_dsa.putty era-fasp@fasp.sra.ebi.ac.uk:vol1/fastq/SRR000/SRR000648/SRR000648.fastq.gz  .
 
-ascpR <- function ( ascpCMD, ascpSource, destDir=getwd() ) {
+ascpR <- function ( ascpCMD, ascpSource, destDir = getwd() ) {
 	for( src in ascpSource ) {
-		ascp_cmd <- paste( ascpCMD, src, destDir, sep=' ' )
+		ascp_cmd <- paste( ascpCMD, src, destDir, sep = ' ' )
 		system( ascp_cmd )
 	}	
 }
