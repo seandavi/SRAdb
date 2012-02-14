@@ -63,7 +63,7 @@ if( file.exists( 'SRAmetadb.sqlite' ) ) {
 	## system ("fastq-dump SRR000648.lite.sra")
 	
 	## Download fastq files from EBI using ftp protocol:
-	getSRAfile( in_acc, sra_con, destDir = getwd(), fileType = 'fastq', srcType <- 'ftp', makeDirectory = FALSE, method = 'curl', ascpCMD = NULL )
+	getSRAfile( in_acc, sra_con, destDir = getwd(), fileType = 'fastq', srcType = 'ftp', makeDirectory = FALSE, method = 'curl', ascpCMD = NULL )
 	
 	## Download fastq files from EBI  ftp siteusing fasp protocol:
 	ascpCMD <-  'ascp -QT -l 300m -i /usr/local/aspera/connect/etc/asperaweb_id_dsa.putty'

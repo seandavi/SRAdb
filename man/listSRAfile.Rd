@@ -41,7 +41,7 @@ if( file.exists('SRAmetadb.sqlite') ) {
 	sra_dbname <- 'SRAmetadb.sqlite'	
 	sra_con <- dbConnect(dbDriver("SQLite"), sra_dbname)
 
-	## List fastq file ftp addresses associated with "SRA000045"
+	## List ftp or fasp addresses of sra files associated with "SRX000122"
 	listSRAfile (in_acc = c("SRX000122"), sra_con = sra_con, fileType = 'sra')
 	listSRAfile (in_acc = c("SRX000122"), sra_con = sra_con, fileType = 'sra', srcType='fasp')
 	}

@@ -2,7 +2,7 @@
 \alias{ascpSRA}
 \title{Fasp SRA data file downloading using the ascp command line program }
 \description{
-This function downloads SRA data files (fastq, sra or litesra) by fasp protocol using Aspera's ascp command line program, which is include in Aspera Connect software (http://www.asperasoft.com/). 
+This function downloads SRA data files (fastq, sra or litesra) by fasp protocol using Aspera's ascp command line program, which is included in Aspera Connect software (http://www.asperasoft.com/). 
 }
 \usage{
 ascpSRA ( in_acc, sra_con, ascpCMD, fileType = 'litesra', destDir = getwd() )
