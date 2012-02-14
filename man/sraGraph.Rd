@@ -32,20 +32,19 @@ Jack Zhu <zhujack@mail.nih.gov> and Sean Davis <sdavis2@mail.nih.gov>
 if(file.exists('SRAmetadb.sqlite')) {
 
 	library(SRAdb)
+  	library(Rgraphviz)
+	
 	sra_dbname <- 'SRAmetadb.sqlite'	
 	sra_con <- dbConnect(dbDriver("SQLite"), sra_dbname)
-
-
-
-	## create a graphNEL object from SRA accessions, which are full text search results of terms 'colon cancer'
-	g <- sraGraph('colon cancer', sra_con)
+	
+	## create a graphNEL object from SRA accessions, which are full text search results of terms 'primary thyroid cell line'
+	g <- sraGraph('primary thyroid cell line', sra_con)
 	attrs <- getDefaultAttrs(list(node=list(fillcolor='lightblue', shape='ellipse')))
 	plot(g, attrs=attrs)
 
 	## similiar search as the above, returned much larger data.frame and graph is too clouded
 	g <- sraGraph('Ewing Sarcoma', sra_con)
 	\dontrun{
-  	library(Rgraphviz)
 	plot(g)	
 	}
 } else {

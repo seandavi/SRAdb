@@ -5,7 +5,7 @@
 This function downloads files by fasp protocol using Aspera's ascp command line program, which is include in Aspera Connect software (http://www.asperasoft.com/). 
 }
 \usage{
-ascpR ( ascpCMD, ascpSource, destDir = getwd() )
+ascpR( ascpCMD, ascpSource, destDir = getwd() )
 }
 \arguments{
   \item{ascpCMD}{	
@@ -35,9 +35,9 @@ Jack Zhu <zhujack@mail.nih.gov>
 \code{\link{ascpSRA}}, \code{\link{getSRAfile}}, \code{\link{getFASTQinfo}}, \code{\link{getSRAinfo}}
 }
 \examples{
-if(file.exists('SRAmetadb.sqlite')) {
-	\dontrun{
-	library(SRAdb)
+if( file.exists('SRAmetadb.sqlite') ) {
+\dontrun{
+	library( SRAdb )
 	sra_dbname <- 'SRAmetadb.sqlite'	
 	sra_con <- dbConnect(dbDriver("SQLite"), sra_dbname)
 	rs <- getFASTQinfo (in_acc=c("SRR000648","SRR000657"), srcType='fasp')
@@ -47,10 +47,10 @@ if(file.exists('SRAmetadb.sqlite')) {
 	## common ascpCMD in Mac OS X:
 	#ascpCMD = "'/Applications/Aspera Connect.app/Contents/Resources/ascp' -QT -l 300m -i '/Applications/Aspera Connect.app/Contents/Resources/asperaweb_id_dsa.putty'"
 	
-	ascpR ( ascpCMD, ascpSource, destDir = getwd() )
-	dbDisconnect(sra_con)
-	}
+	ascpR( ascpCMD, ascpSource, destDir = getwd() )
+	dbDisconnect( sra_con )
+}
 } else {
-	print("Use getSRAdbFile() to get a copy of the SRAmetadb.sqlite file  and then rerun the example")
+	print( "Use getSRAdbFile() to get a copy of the SRAmetadb.sqlite file  and then rerun the example" )
 }
 }
