@@ -168,7 +168,7 @@ dim(rs)
 
 \subsection{Get sra or sra-lite data file information}
 
-## List fastq file ftp or fasp addresses associated with "SRX000122":
+List fastq file ftp or fasp addresses associated with "SRX000122":
 <<eval=false>>=
 listSRAfile (in_acc = c("SRX000122"), sra_con = sra_con, fileType = 'sra')
 listSRAfile (in_acc = c("SRX000122"), sra_con = sra_con, fileType = 'sra', srcType='fasp')
