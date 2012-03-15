@@ -96,14 +96,15 @@ sqliteQuickSQL(sra_con,'PRAGMA TABLE_INFO(study)')
 Select 3 records from the \textit{study} table and show the first 5 columns:
 <<j1>>=
 rs <- dbGetQuery(sra_con,'select * from study limit 3')
-rs[,1:5]
+rs[, 1:3]
 @ 
 
 Get the SRA study accessions and titles from SRA study that study\_type contains ``Transcriptome''.  The ``\%'' sign is used in combination with the ``like'' operator to do a ``wildcard'' search for the term ``Transcriptome'' with any number of characters after it.
 
 <<j2>>=
-rs <- dbGetQuery(sra_con,paste("select study_accession,study_title from study where",
-                           "study_description like 'Transcriptome%'",sep=" "))
+rs <- dbGetQuery(sra_con, paste( "select study_accession, 
+        study_title from study where",
+       "study_description like 'Transcriptome%'",sep=" "))
 rs[1:3,]
 @ 
 
@@ -113,7 +114,8 @@ getTableCounts <- function(tableName,conn) {
   sql <- sprintf("select count(*) from %s",tableName)
   return(dbGetQuery(conn,sql)[1,1])
 }
-do.call(rbind,sapply(sra_tables[1:3],getTableCounts,sra_con,simplify=FALSE))
+do.call(rbind,sapply(sra_tables[1:3], 
+	getTableCounts, sra_con, simplify=FALSE))
 @ 
 
 
@@ -138,31 +140,36 @@ Searching by regular table and field specific SQL commands can be very powerful 
 
 Find all run and study combined  records in which any given fields has 'breast' and 'cancer' words, including 'breast' and 'cancer' are not next to each other:
 <<>>=
-rs <- getSRA (search_terms ='breast cancer', out_types=c('run','study'),  sra_con=sra_con)
+rs <- getSRA (search_terms ='breast cancer', 
+     out_types=c('run','study'),  sra_con=sra_con)
 dim(rs)
 @ 
 
 If you only wants records containing exact phrase of 'breast cancer', in which 'breast' and 'cancer' have other characters between other than a space: 
 <<>>=
-rs <- getSRA (search_terms ='"breast cancer"', out_types=c('run','study'),  sra_con=sra_con)
+rs <- getSRA (search_terms ='"breast cancer"', 
+     out_types=c('run','study'),  sra_con=sra_con)
 dim(rs)
 @
 
 Find all sample records containing words of either 'MCF7' or 'MCF-7':
 <<>>=
-rs <- getSRA (search_terms ='MCF7 OR "MCF-7"', out_types=c('sample'), sra_con=sra_con) 
+rs <- getSRA (search_terms ='MCF7 OR "MCF-7"', 
+     out_types=c('sample'), sra_con=sra_con) 
 dim(rs)
 @
 
 Find all submissions by GEO:
 <<>>=
-rs <- getSRA (search_terms ='submission_center: GEO', out_types=c('submission'), sra_con=sra_con)  
+rs <- getSRA (search_terms ='submission_center: GEO', 
+     out_types=c('submission'), sra_con=sra_con)  
 dim(rs)
 @
 
 Find study records containing a word beginning with 'Carcino':
 <<>>=
-rs <- getSRA (search_terms ='Carcino*', out_types=c('study'), sra_con=sra_con)  
+rs <- getSRA (search_terms ='Carcino*', 
+     out_types=c('study'), sra_con=sra_con)  
 dim(rs)
 @
 
@@ -170,22 +177,28 @@ dim(rs)
 
 List fastq file ftp or fasp addresses associated with "SRX000122":
 <<eval=false>>=
-listSRAfile (in_acc = c("SRX000122"), sra_con = sra_con, fileType = 'sra')
-listSRAfile (in_acc = c("SRX000122"), sra_con = sra_con, fileType = 'sra', srcType='fasp')
+listSRAfile (in_acc = c("SRX000122"), 
+     sra_con = sra_con, fileType = 'sra')
+listSRAfile (in_acc = c("SRX000122"), 
+     sra_con = sra_con, fileType = 'sra', srcType='fasp')
 @
 
 The above function does not check file availability, size and date of the sra or sra-lite data files on the server, but the function getSRAinfo does this, which is good to know if you are  preparing to download them:
 <<eval=false>>=
-rs <- getSRAinfo (in_acc=c("SRX000122"), sra_con=sra_con)
+rs <- getSRAinfo (in_acc=c("SRX000122"), 
+     sra_con=sra_con)
 rs[1:3,]
 @
 
 Next you might want to download sra or sra-lite data files from the ftp site.  The getSRAfile function will download all available sra or sra-lite data files associated with "SRR000648" and "SRR000657" from NCBI SRA ftp site to a new folder in current directory:
 <<eval=false>>=
-getSRAfile( in_acc = c("SRR000648","SRR000657"), sra_con = sra_con, destDir = getwd(), fileType = 'litesra' )
+getSRAfile( in_acc = c("SRR000648","SRR000657"), 
+     sra_con = sra_con, destDir = getwd(), 
+	 fileType = 'litesra' )
 @
 
-Then downloaded .sra or .lite.sra can be easily converted into fastq files using fastq-dump in SRA Toolkit ( http://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?cmd=show&f=software&m=software&s=software ):
+Then downloaded .sra or .lite.sra can be easily converted into fastq files using fastq-dump in SRA Toolkit 
+( http://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?cmd=show\&f=software\&m=software\&s=software ):
 <<>>=
 ## system ("fastq-dump SRR000648.lite.sra")
 @
@@ -193,7 +206,8 @@ Then downloaded .sra or .lite.sra can be easily converted into fastq files using
 Or users can directly download fastq files from EBI using ftp protocol:
 <<eval=false>>=
 getFASTQinfo( in_acc = c("SRR000648","SRR000657"), srcType = 'ftp' )
-getSRAfile( in_acc, sra_con, destDir = getwd(), fileType = 'fastq', srcType = 'ftp' )
+getSRAfile( in_acc, sra_con, destDir = getwd(), 
+     fileType = 'fastq', srcType = 'ftp' )
 @
 
 \subsection{Download SRA data files using fasp protocol}
@@ -202,23 +216,32 @@ Curretly both NCBI and EBI supports fasp downloading of SRA data files, which ha
 Download fastq files from EBI  ftp siteusing fasp protocol:
 <<eval=false>>=
 ## List  fasp addresses of SRA fastq files associated with "SRX000122"
-listSRAfile (in_acc = c("SRX000122"), sra_con = sra_con, fileType = 'fastq', srcType='fasp')
+listSRAfile (in_acc = c("SRX000122"), sra_con = sra_con, 
+     fileType = 'fastq', srcType='fasp')
 
 ## download fastq files using fasp protocol:
-ascpCMD <-  'ascp -QT -l 300m -i /usr/local/aspera/connect/etc/asperaweb_id_dsa.putty'
-getSRAfile( in_acc = c("SRX000122"), sra_con,  fileType = 'fastq', srcType = 'fasp',  ascpCMD = ascpCMD )
+ascpCMD <-  'ascp -QT -l 300m -i 
+   /usr/local/aspera/connect/etc/asperaweb_id_dsa.putty'
+getSRAfile( in_acc = c("SRX000122"), sra_con,  
+     fileType = 'fastq', srcType = 'fasp',  ascpCMD = ascpCMD )
 @
 
 Download .lite.sra files from NCBI  ftp site using fasp protocol:
 <<eval=false>>=
 ## List  fasp addresses of SRA litesra files associated with "SRX000122"
-listSRAfile (in_acc = c("SRX000122"), sra_con = sra_con, fileType = 'litesra', srcType='fasp')
+listSRAfile (in_acc = c("SRX000122"), 
+     sra_con = sra_con, fileType = 'litesra', srcType='fasp')
 
 ## download litesra files using fasp protocol:
-ascpCMD <- 'ascp -QT -l 300m -i /usr/local/aspera/connect/etc/asperaweb_id_dsa.putty'
+ascpCMD <- 'ascp -QT -l 300m -i 
+    /usr/local/aspera/connect/etc/asperaweb_id_dsa.putty'
 ## common ascpCMD for a system with Mac OS X:
-#ascpCMD <- "'/Applications/Aspera Connect.app/Contents/Resources/ascp' -QT -l 300m -i '/Applications/Aspera Connect.app/Contents/Resources/asperaweb_id_dsa.putty'"
-sraFiles <- ascpSRA( in_acc = c("SRX000122"), sra_con, ascpCMD, fileType = 'litesra', destDir=getwd() )
+#ascpCMD <- "'/Applications/Aspera Connect.app
+#/Contents/Resources/ascp' -QT -l 300m -i 
+#'/Applications/Aspera Connect.app/Contents/
+#Resources/asperaweb_id_dsa.putty'"
+sraFiles <- ascpSRA( in_acc = c("SRX000122"), 
+     sra_con, ascpCMD, fileType = 'litesra', destDir=getwd() )
 @
 
 
@@ -248,9 +271,11 @@ Due to the nature of SRA data and its design, sometimes it is hard to get a whol
 
 Create a graphNEL object from SRA accessions, which are full text search results of terms 'primary thyroid cell line'
 <<eval=false>>=
-acc <- getSRA (search_terms ='primary thyroid cell line', out_types=c('sra'), sra_con=sra_con, acc_only=TRUE) 
+acc <- getSRA (search_terms ='primary thyroid cell line', 
+     out_types=c('sra'), sra_con=sra_con, acc_only=TRUE) 
 g <- entityGraph(acc)
-attrs <- getDefaultAttrs(list(node=list(fillcolor='lightblue', shape='ellipse')))
+attrs <- getDefaultAttrs(list(node=list(
+	 fillcolor='lightblue', shape='ellipse')))
 plot(g, attrs= attrs)  
 @
 
@@ -258,7 +283,8 @@ Create a graphNEL object directly from full text search results of terms 'primar
 <<eval=false>>=
 g <- sraGraph('primary thyroid cell line', sra_con)
 library(Rgraphviz)
-attrs <- getDefaultAttrs(list(node=list(fillcolor='lightblue', shape='ellipse')))
+attrs <- getDefaultAttrs(list(node=list(
+	fillcolor='lightblue', shape='ellipse')))
 plot(g, attrs=attrs)
 @
 
