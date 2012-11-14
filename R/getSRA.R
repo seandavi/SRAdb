@@ -15,7 +15,7 @@ function (search_terms, out_types=c('sra','submission','study','sample','experim
                        which(sra_fields=='submission_ID')-1),
              submission=seq(which(sra_fields=='submission_ID')+1,
                             length(sra_fields)),
-             sra=c(6:77))
+             sra=c(6:75))
 	
 	## remove records with all NULL values for out_types
 	if ( is.element('sra', out_types) ) {
