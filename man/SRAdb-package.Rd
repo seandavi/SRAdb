@@ -22,7 +22,7 @@ Jack Zhu and Sean Davis
 Maintainer: Jack Zhu <zhujack@mail.nih.gov>
 }
 \references{
-http://watson.nci.nih.gov/~zhujack/SRAmetadb.sqlite.gz
+http://gbnci.abcc.ncifcrf.gov/backup/SRAmetadb.sqlite.gz http://dl.dropbox.com/u/51653511/SRAmetadb.sqlite.gz
 }
 \keyword{ package }
 \examples{
