@@ -11,13 +11,13 @@
 # listSRAfile (in_acc=c("SRX000122"), sra_con=sra_con, fileType='fastq', srcType='fasp')
 
 listSRAfile <-
-function( in_acc, sra_con, fileType='litesra', srcType='ftp' ) {
+function( in_acc, sra_con, fileType='sra', srcType='ftp' ) {
 	if( fileType == 'fastq' ) {
 		sra_acc = sraConvert( in_acc, out_type=c('run'), sra_con )
 		sraFiles = getFASTQinfo (sra_acc$run, srcType)
 	} else if (fileType == 'litesra' | fileType == 'sra') {
-		
-		if( fileType == 'litesra' ) { sraExt <- '.lite.sra'; } else { sraExt <- '.sra';}
+		## NCBI SRA is phasing out 'litesra' and 'litesra' ftp is point to the 'sra'
+		if( fileType == 'litesra' ) { sraExt <- '.sra'; } else { sraExt <- '.sra';}
 		sra_acc  <- sraConvert (in_acc, out_type = c('study','sample','experiment','run'),
 	                            sra_con= sra_con)	
 		

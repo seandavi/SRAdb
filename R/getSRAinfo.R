@@ -1,5 +1,5 @@
 getSRAinfo <-
-function( in_acc, sra_con, sraType = 'litesra' ) {
+function( in_acc, sra_con, sraType = 'sra' ) {
 	sraFile <- listSRAfile(in_acc, sra_con=sra_con, fileType=sraType, srcType='ftp')
 	sraFileDir <- paste(na.omit(unique(dirname(sraFile$ftp))), '/',
                           sep='')
