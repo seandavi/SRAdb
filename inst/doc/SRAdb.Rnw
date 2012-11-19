@@ -47,17 +47,28 @@ Accessing data in SRA requires finding it first.  This R package provides a conv
 
 SRA does not currently store aligned reads or any other processed data that might rely on alignment to a reference genome.  However, NCBI GEO does often contain aligned reads for sequencing experiments and the \Rpackage{SRAdb} package can help to provide links to these data as well.  In combination with the \Rpackage{GEOmetadb} and \Rpackage{GEOquery} packages, these data are also, then, accessible.
 
+\begin{figure}
+  \includegraphics[width=1.0\textwidth]{SRAdiagram}
+  \caption{A graphical representation (sometimes called an \textit{Entity-Relationship Diagram}) of the relationships between the main tables in the SRAdb package.}
+  \label{figure:ERD}
+\end{figure}
+
 
 \section{Getting Started}
-Since SRA is a continuously growing repository, the SRAdb SQLite file is updated regularly.  The first step, then, is to get the SRAdb SQLite file from the online location.  The download and uncompress steps are done automatically with a single command,
-getSRAdbFile.
+Since SRA is a continuously growing repository, the SRAdb SQLite file is updated regularly.  The first step, then, is to get the SRAdb SQLite file from the online location.  The download and uncompress steps are done automatically with a single command, getSRAdbFile.
 
 <<>>=
 library(SRAdb)
 sqlfile <- getSRAdbFile()
 @ 
 
-The default storage location is in the current working directory and the default filename is ``SRAmetadb.sqlite''; it is best to leave the name unchanged unless there is a pressing reason to change it.  Since this SQLite file is of key importance in \Rpackage{SRAdb}, it is perhaps of some interest to know some details about the file itself.
+The default storage location is in the current working directory and the default filename is ``SRAmetadb.sqlite''; it is best to leave the name unchanged unless there is a pressing reason to change it.  Note: the above downloading and uncompressing steps could take quite a fews moments due to file size,  depdending on your network bandwidth. If interested, it can be timed using the following commands:
+
+timeStart <- proc.time()
+sqlfile <- getSRAdbFile()
+proc.time() - timeStart
+
+Since this SQLite file is of key importance in \Rpackage{SRAdb}, it is perhaps of some interest to know some details about the file itself.
 
 <<>>=
 file.info('SRAmetadb.sqlite')
@@ -75,7 +86,7 @@ For further details, at this time see \code{help('SRAdb-package')}.
 
 \subsection{Interacting with the database}
 The functionality covered in this section is covered in much more detail in the \Rpackage{DBI} and \Rpackage{RSQLite} package documentation.  We cover enough here only to be useful.
-The \Rfunction{dbListTables} function lists all the tables in the SQLite database handled by the connection object \Robject{sra\_con} created in the previous section.
+The \Rfunction{dbListTables} function lists all the tables in the SQLite database handled by the connection object \Robject{sra\_con} created in the previous section. Please see the relationship of the SRA main data types in the Figure 1.
 <<>>=
 sra_tables <- dbListTables(sra_con)
 sra_tables
@@ -86,16 +97,22 @@ There is also the \Rfunction{dbListFields} function that can list database field
 dbListFields(sra_con,'study')
 @ 
 
-Sometimes it is useful to get the actual SQL schema associated with a table.  As an example of doing this and using an \Rclass{RSQLite} shortcut function, \Rfunction{sqliteQuickSQL}, we can get the table schema for the \textit{study} table.
+Sometimes it is useful to get the actual SQL schema associated with a table.  As an example of doing this and using an \Rclass{RSQLite} shortcut function, \Rfunction{sqliteQuickSQL}, we can get the table schema for the \textit{study} table:
 <<>>=
 sqliteQuickSQL(sra_con,'PRAGMA TABLE_INFO(study)')
+@ 
+
+The table "col\_desc" contains information of filed name, type, descritption and default values: 
+<<>>=
+colDesc <- colDescriptions(sra_con=sra_con)[1:5,]
+colDesc[, 1:4]
 @ 
 
 \subsection{Writing SQL queries and getting results} 
 
 Select 3 records from the \textit{study} table and show the first 5 columns:
 <<j1>>=
-rs <- dbGetQuery(sra_con,'select * from study limit 3')
+rs <- dbGetQuery(sra_con,"select * from study limit 3")
 rs[, 1:3]
 @ 
 
@@ -114,22 +131,47 @@ getTableCounts <- function(tableName,conn) {
   sql <- sprintf("select count(*) from %s",tableName)
   return(dbGetQuery(conn,sql)[1,1])
 }
-do.call(rbind,sapply(sra_tables[1:3], 
+do.call(rbind,sapply(sra_tables[c(2,4,5,11,12)], 
 	getTableCounts, sra_con, simplify=FALSE))
 @ 
 
+Get some high-level statistics could be to helpful to get overall idea about what data are availble in the SRA database. List all study types and number of studies contained for each of the type:
+
+<<>>=
+rs <- dbGetQuery(sra_con, paste( "SELECT study_type AS StudyType, 
+	count( * ) AS Number FROM `study` GROUP BY study_type order 
+	by Number DESC ", sep=""))
+rs
+@ 
+
+List all Instrument Models and number of experiments for each of the Instrument Models:
+
+<<>>=
+rs <- dbGetQuery(sra_con, paste( "SELECT instrument_model AS
+	'Instrument Model', count( * ) AS Experiments FROM `experiment`
+	GROUP BY instrument_model order by Experiments DESC", sep=""))
+rs
+@ 
+
+List all types of library strategies and number of runs for each of them:
+<<>>=
+rs <- dbGetQuery(sra_con, paste( "SELECT library_strategy AS 
+	'Library Strategy', count( * ) AS Runs FROM `experiment` 
+	GROUP BY library_strategy order by Runs DESC", sep=""))
+rs
+@ 
 
 \subsection{Conversion of SRA entity types}
 
-Large-scale consumers of SRA data might want to convert SRA entity type from one to others, e.g. finding all experiment accessions (SRX, ERX or DRX) and  run accessions (SRR, ERR or DRR) associated with 'SRP001007'. Function sraConvert does the conversion with a very fast mapping between entity types. 
+Large-scale consumers of SRA data might want to convert SRA entity type from one to others, e.g. finding all experiment accessions (SRX, ERX or DRX) and  run accessions (SRR, ERR or DRR) associated with "SRP001007" and "SRP000931". Function sraConvert does the conversion with a very fast mapping between entity types. 
 
-Covert 'SRP001007' to other possible types in the SRAmetadb.sqlite.
+Covert "SRP001007" and "SRP000931" to other possible types in the SRAmetadb.sqlite:
 <<>>=
-conversion <- sraConvert(c('SRP001007','SRP000931'), sra_con= sra_con)
+conversion <- sraConvert( c('SRP001007','SRP000931'), sra_con = sra_con )
 conversion[1:3,]
 @ 
 
-Check what SRA types and how many entities in each type in the conversion.
+Check what SRA types and how many entities for each type:
 <<>>=
 apply(conversion, 2, unique)
 @    
@@ -138,112 +180,129 @@ apply(conversion, 2, unique)
 
 Searching by regular table and field specific SQL commands can be very powerful and  if you are familiar with SQL language and the table structure.  If not, SQLite has a very handy module called Full text search (fts3), which allow users to do Google like search with terms and operators.  The function getSRA does Full text search against all fields in a fts3 table with  terms constructed with the Standard Query Syntax and Enhanced Query Syntax. Please see http://www.sqlite.org/fts3.html for detail. 
 
-Find all run and study combined  records in which any given fields has 'breast' and 'cancer' words, including 'breast' and 'cancer' are not next to each other:
+Find all run and study combined  records in which any given fields has "breast" and "cancer" words, including "breast" and "cancer" are not next to each other:
 <<>>=
-rs <- getSRA (search_terms ='breast cancer', 
-     out_types=c('run','study'),  sra_con=sra_con)
+rs <- getSRA( search_terms = "breast cancer", 
+	out_types = c('run','study'), sra_con )
 dim(rs)
+
+rs <- getSRA( search_terms = "breast cancer", 
+	out_types = c("submission", "study", "sample", 
+	"experiment", "run"), sra_con )
+
+# get counts for some information interested
+apply( rs[, c('run','sample','study_type','platform',
+	'instrument_model')], 2, function(x) 
+	{length(unique(x))} )
+
 @ 
 
-If you only wants records containing exact phrase of 'breast cancer', in which 'breast' and 'cancer' have other characters between other than a space: 
+If you only want SRA records containing exact phrase of "breast cancer", in which "breast" and "cancer" do not have other characters between other than a space: 
 <<>>=
-rs <- getSRA (search_terms ='"breast cancer"', 
-     out_types=c('run','study'),  sra_con=sra_con)
+rs <- getSRA (search_terms ='"breast cancer"',
+	out_types=c('run','study'), sra_con)
 dim(rs)
 @
 
-Find all sample records containing words of either 'MCF7' or 'MCF-7':
+Find all sample records containing words of either "MCF7" or "MCF-7":
 <<>>=
-rs <- getSRA (search_terms ='MCF7 OR "MCF-7"', 
-     out_types=c('sample'), sra_con=sra_con) 
+rs <- getSRA( search_terms ='MCF7 OR "MCF-7"',
+	out_types = c('sample'), sra_con ) 
 dim(rs)
 @
 
 Find all submissions by GEO:
 <<>>=
-rs <- getSRA (search_terms ='submission_center: GEO', 
-     out_types=c('submission'), sra_con=sra_con)  
+rs <- getSRA( search_terms ='submission_center: GEO', 
+     out_types = c('submission'), sra_con )  
 dim(rs)
 @
 
 Find study records containing a word beginning with 'Carcino':
 <<>>=
-rs <- getSRA (search_terms ='Carcino*', 
-     out_types=c('study'), sra_con=sra_con)  
+rs <- getSRA( search_terms ='Carcino*', 
+     out_types = c('study'), sra_con=sra_con )  
 dim(rs)
 @
 
-\subsection{Get sra or sra-lite data file information}
+\subsection{Download SRA data files}
 
-List fastq file ftp or fasp addresses associated with "SRX000122":
-<<eval=false>>=
-listSRAfile (in_acc = c("SRX000122"), 
-     sra_con = sra_con, fileType = 'sra')
-listSRAfile (in_acc = c("SRX000122"), 
-     sra_con = sra_con, fileType = 'sra', srcType='fasp')
+ List ftp addresses of the fastq files associated with "SRX000122":
+
+<<>>=
+rs = listSRAfile( c("SRX000122"), sra_con, fileType = 'sra' )
 @
 
-The above function does not check file availability, size and date of the sra or sra-lite data files on the server, but the function getSRAinfo does this, which is good to know if you are  preparing to download them:
-<<eval=false>>=
-rs <- getSRAinfo (in_acc=c("SRX000122"), 
-     sra_con=sra_con)
+The above function does not check file availability, size and date of the sra data files on the server, but the function getSRAinfo does this, which is good to know if you are  preparing to download them:
+
+<<>>=
+rs = getSRAinfo ( c("SRX000122"), sra_con, sraType = "sra" )
 rs[1:3,]
 @
 
-Next you might want to download sra or sra-lite data files from the ftp site.  The getSRAfile function will download all available sra or sra-lite data files associated with "SRR000648" and "SRR000657" from NCBI SRA ftp site to a new folder in current directory:
-<<eval=false>>=
-getSRAfile( in_acc = c("SRR000648","SRR000657"), 
-     sra_con = sra_con, destDir = getwd(), 
-	 fileType = 'litesra' )
+Next you might want to download sra data files from the ftp site.  The getSRAfile function will download all available sra data files associated with "SRR000648" and "SRR000657" from the NCBI SRA ftp site to the current directory:
+
+<<>>=
+getSRAfile( c("SRR000648","SRR000657"), sra_con, fileType = 'sra' )
 @
 
-Then downloaded .sra or .lite.sra can be easily converted into fastq files using fastq-dump in SRA Toolkit 
-( http://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?cmd=show\&f=software\&m=software\&s=software ):
+Then downloaded sra data files can be easily converted into fastq files using fastq-dump in SRA Toolkit 
+( http://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=software ):
+
 <<>>=
 ## system ("fastq-dump SRR000648.lite.sra")
 @
 
-Or users can directly download fastq files from EBI using ftp protocol:
+Or directly download fastq files from EBI using ftp protocol:
 <<eval=false>>=
-getFASTQinfo( in_acc = c("SRR000648","SRR000657"), srcType = 'ftp' )
-getSRAfile( in_acc, sra_con, destDir = getwd(), 
-     fileType = 'fastq', srcType = 'ftp' )
+getFASTQinfo( c("SRR000648","SRR000657"), srcType = 'ftp' )
+
+getSRAfile( c("SRR000648","SRR000657"), sra_con, fileType = 'fastq' )
 @
 
 \subsection{Download SRA data files using fasp protocol}
-Curretly both NCBI and EBI supports fasp downloading of SRA data files, which has several advantages over ftp protocol, including high-speed transfering large files over long distance.  Please check EBI or NCBI web site or Aspera (http://www.asperasoft.com/) for details. SRAdb has indcluded two wraper functions for using ascp command line program to download files by fasp protocol, which is included in in Aspera Connect software. But, due to complexity of installaton of the software and options within it, the funcitons develpped here ask users to supply main ascp comands.  
+Curretly both NCBI and EBI supports fasp protocol for downloading SRA data files, which has several advantages over ftp protocol, including high-speed transfering large files over long distance.  Please check EBI or NCBI web site or Aspera (http://www.asperasoft.com/) for details. SRAdb has indcluded two wraper functions for using ascp command line program (fasp protocol) to download SRA data files frm either the NCBI or EBI, which is included in in Aspera Connect software. But, due to complexity of installaton of the software and options within it, the funcitons develpped here ask users to supply main ascp comands.  
 
 Download fastq files from EBI  ftp siteusing fasp protocol:
 <<eval=false>>=
-## List  fasp addresses of SRA fastq files associated with "SRX000122"
-listSRAfile (in_acc = c("SRX000122"), sra_con = sra_con, 
-     fileType = 'fastq', srcType='fasp')
+## List fasp addresses for associated fastq files:
+listSRAfile ( c("SRX000122"), sra_con, fileType = 'fastq', srcType='fasp')
+
+## get fasp addresses for associated fastq files:
+getFASTQinfo( c("SRX000122"), srcType = 'fasp' )
 
 ## download fastq files using fasp protocol:
+# the following ascpCMD needs to be constructed according custom 
+# system configuration
+# common ascp installation in a Linux system:
 ascpCMD <-  'ascp -QT -l 300m -i 
-   /usr/local/aspera/connect/etc/asperaweb_id_dsa.putty'
-getSRAfile( in_acc = c("SRX000122"), sra_con,  
-     fileType = 'fastq', srcType = 'fasp',  ascpCMD = ascpCMD )
+ /usr/local/aspera/connect/etc/asperaweb_id_dsa.putty'
+
+## common ascpCMD for a Mac OS X system:
+# ascpCMD <- "'/Applications/Aspera Connect.app/Contents/
+#  Resources/ascp' -QT -l 300m -i '/Applications/
+# Aspera Connect.app/Contents/Resources/asperaweb_id_dsa.putty'"
+   
+getSRAfile( c("SRX000122"), sra_con, fileType = 'fastq', 
+	srcType = 'fasp',  ascpCMD = ascpCMD )
 @
 
-Download .lite.sra files from NCBI  ftp site using fasp protocol:
+Download sra files from NCBI using fasp protocol:
 <<eval=false>>=
-## List  fasp addresses of SRA litesra files associated with "SRX000122"
-listSRAfile (in_acc = c("SRX000122"), 
-     sra_con = sra_con, fileType = 'litesra', srcType='fasp')
+## List fasp addresses of sra files associated with "SRX000122"
+listSRAfile( c("SRX000122"), sra_con, fileType = 'sra', srcType='fasp')
 
-## download litesra files using fasp protocol:
-ascpCMD <- 'ascp -QT -l 300m -i 
-    /usr/local/aspera/connect/etc/asperaweb_id_dsa.putty'
-## common ascpCMD for a system with Mac OS X:
-#ascpCMD <- "'/Applications/Aspera Connect.app
-#/Contents/Resources/ascp' -QT -l 300m -i 
-#'/Applications/Aspera Connect.app/Contents/
-#Resources/asperaweb_id_dsa.putty'"
-sraFiles <- ascpSRA( in_acc = c("SRX000122"), 
-     sra_con, ascpCMD, fileType = 'litesra', destDir=getwd() )
+## download sra files using fasp protocol
+getSRAfile( c("SRX000122"), sra_con, fileType = 'sra', 
+ srcType = 'fasp',  ascpCMD = ascpCMD )
 @
 
+The downloading messege will show signigicant faster downloading speed than the ftp protocol:
+	
+	' SRR000658.sra  100%  155MB  291Mb/s    00:05    
+	Completed: 159492K bytes transferred in 5 seconds
+	(249247K bits/sec), in 1 file.
+	... '
 
 \section{Interactive views of sequence data}
 
@@ -267,31 +326,69 @@ IGVsnapshot(sock)
 
 \section{Graphic view of SRA entities}
 
-Due to the nature of SRA data and its design, sometimes it is hard to get a whole picture of the relationship between a set of SRA entities. Functions of \Rfunction{entityGraph} and \Rfunction{sraGraph} in this package generate graphNEL objects with edgemode='directed' from input data.frame or directly from search terms, and then the \Rfunction{plot} function can easily draw a graph.
-
-Create a graphNEL object from SRA accessions, which are full text search results of terms 'primary thyroid cell line'
-<<eval=false>>=
-acc <- getSRA (search_terms ='primary thyroid cell line', 
-     out_types=c('sra'), sra_con=sra_con, acc_only=TRUE) 
-g <- entityGraph(acc)
-attrs <- getDefaultAttrs(list(node=list(
-	 fillcolor='lightblue', shape='ellipse')))
-plot(g, attrs= attrs)  
-@
+Due to the nature of SRA data and its design, sometimes it is hard to get a whole picture of the relationship between a set of SRA entities. Functions of \Rfunction{entityGraph} and \Rfunction{sraGraph} in this package generate graphNEL objects with edgemode='directed' from input data.frame or directly from search terms, and then the \Rfunction{plot} function can easily draw a diagram.
 
 Create a graphNEL object directly from full text search results of terms 'primary thyroid cell line'
+
 <<eval=false>>=
-g <- sraGraph('primary thyroid cell line', sra_con)
+library(SRAdb)
 library(Rgraphviz)
+
+g <- sraGraph('primary thyroid cell line', sra_con)
 attrs <- getDefaultAttrs(list(node=list(
 	fillcolor='lightblue', shape='ellipse')))
 plot(g, attrs=attrs)
+
+## similiar search as the above, returned much larger data.frame and graph is too clouded
+g <- sraGraph('Ewing Sarcoma', sra_con)
+plot(g)	
+
 @
+
+Please see the Figure 2 for an example diagram.
+
+\begin{figure}
+  \includegraphics[width=1.0\textwidth]{sraGraph}
+  \caption{A graphical representation (sometimes called an \textit{Entity-Relationship Diagram}) of the relationships between the SRA entities.}
+  \label{figure:ERD}
+\end{figure}
 
 It's considered good practise to explicitely disconnect from the database
 once we are done with it:
 <<>>=
 dbDisconnect(sra_con)
+@
+
+\section{Example use case}
+
+This sesection will use the functionalities in the SRAdb package to explore data from the 1000 genomes project.  Mainly, 
+
+1. Get some statistics of meta data and data files from the 1000 genomes project using the SRAdb
+2. Download data files
+3. Load bam files into the IGV from R
+4. Create some snapshoots programmtically from R
+
+<<eval=false>>=
+
+library(SRAdb)
+
+setwd('1000g')
+if( ! file.exists('SRAmetadb.sqlite') ) {
+	sqlfile <- getSRAdbFile()
+} else {
+	sqlfile <- 'SRAmetadb.sqlite'	
+}
+sra_con <- dbConnect(SQLite(),sqlfile)
+
+## get all related accessions
+rs <- getSRA( search_terms = '"1000 Genomes Project"', 
+	sra_con=sra_con, acc_only=TRUE)
+dim(rs)
+head(rs)
+
+## get counts for each data types
+apply( rs, 2, function(x) {length(unique(x))} )
+
 @
 
 \section{sessionInfo}

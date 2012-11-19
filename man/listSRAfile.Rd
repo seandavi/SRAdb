@@ -23,7 +23,7 @@ types of SRA data files, which should be 'sra',  'litesra' or 'fastq'.
 
 }
 \details{
-SRA fastq files are hosted at EBI ftp site (ftp://ftp.sra.ebi.ac.uk/vol1/fastq/) and .sra or .lite.sra files are hosted at NCBI ftp site (ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/).
+SRA fastq files are hosted at EBI ftp site (ftp://ftp.sra.ebi.ac.uk/vol1/fastq/) and .sra or .lite.sra files are hosted at NCBI ftp site (ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/). Note: NCBI SRA is phasing out 'litesra' files and currently 'litesra' ftp addresses are pointing to the 'sra' files.
 }
 \value{
 A data frame of matched SRA accessions and data file names with ftp or fasp addresses. 

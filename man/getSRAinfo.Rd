@@ -5,7 +5,7 @@
 This function gets SRA .sra or .lite.sra file information from NCBI SRA ftp site  for a given list SRA accessions.
 }
 \usage{
-getSRAinfo( in_acc, sra_con, sraType = 'litesra' )
+getSRAinfo( in_acc, sra_con, sraType = 'sra' )
 }
 \arguments{
   \item{in_acc}{
