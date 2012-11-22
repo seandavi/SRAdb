@@ -5,7 +5,7 @@
 This function lists all sra, sra-lite or fastq data files associated with input SRA accessions
 }
 \usage{
-listSRAfile( in_acc, sra_con, fileType = 'litesra', srcType = 'ftp' )
+listSRAfile( in_acc, sra_con, fileType = 'sra', srcType = 'ftp' )
 }
 \arguments{
   \item{in_acc}{
