@@ -1,8 +1,8 @@
 Package: SRAdb
 Type: Package
 Title: A compilation of metadata from NCBI SRA and tools
-Version: 1.13.0
-Date: 2012-02-07
+Version: 1.13.1
+Date: 2012-11-22
 Depends: RSQLite (>= 0.8-4) , graph, RCurl
 Imports: GEOquery
 Suggests: Rgraphviz
@@ -19,11 +19,13 @@ Description: The Sequence Read Archive (SRA) is the largest public
   more feasible. This is accomplished by parsing all the NCBI SRA
   metadata into a SQLite database that can be stored and queried
   locally. Fulltext search in the package make querying metadata very
-  flexible and powerful.  sra or sra-lite files can be downloaded for doing
-  alignment locally. The SQLite database is updated regularly as new
-  data is added to SRA and can be downloaded at will for the most
-  up-to-date metadata.
+  flexible and powerful.  fastq and sra files can be downloaded for doing
+  alignment locally. Beside ftp protocol, the SRAdb has funcitons 
+  supporting fastp protocol (ascp from Aspera Connect) for faster 
+  downloading large data files over long distance. The SQLite 
+  database is updated regularly as new data is added to SRA and 
+  can be downloaded at will for the most up-to-date metadata.
 License: Artistic-2.0
 LazyLoad: yes
-URL: http://watson.nci.nih.gov/
+URL: http://gbnci.abcc.ncifcrf.gov/sra/
 

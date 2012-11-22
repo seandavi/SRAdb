@@ -5,7 +5,7 @@
 This function does Fulltext search on any SRA fields in any SRA data types with Fulltext capacity in the SQLite and returns SRA records
 }
 \usage{
-getSRA(search_terms, out_types=c('sra','submission','study','sample','experiment','run'), sra_con, acc_only=FALSE)
+getSRA(search_terms, out_types=c('sra','submission','study','experiment','sample','run'), sra_con, acc_only=FALSE)
 }
 \arguments{
   \item{search_terms}{
