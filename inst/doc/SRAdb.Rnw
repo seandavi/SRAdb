@@ -49,13 +49,13 @@ SRA does not currently store aligned reads or any other processed data that migh
 
 \begin{figure}
   \includegraphics[width=1.0\textwidth]{SRAdiagram}
-  \caption{A graphical representation (sometimes called an \textit{Entity-Relationship Diagram}) of the relationships between the main tables in the SRAdb package.}
+  \caption{A graphical representation (sometimes called an \textit{Entity-Relationship Diagram}) of the relationships between the main tables in the \Rpackage{SRAdb} package.}
   \label{figure:ERD}
 \end{figure}
 
 
 \section{Getting Started}
-Since SRA is a continuously growing repository, the SRAdb SQLite file is updated regularly.  The first step, then, is to get the SRAdb SQLite file from the online location.  The download and uncompress steps are done automatically with a single command, getSRAdbFile.
+Since SRA is a continuously growing repository, the \Rpackage{SRAdb} SQLite file is updated regularly.  The first step, then, is to get the \Rpackage{SRAdb} SQLite file from the online location.  The download and uncompress steps are done automatically with a single command, getSRAdbFile.
 
 <<>>=
 library(SRAdb)
@@ -64,9 +64,11 @@ sqlfile <- getSRAdbFile()
 
 The default storage location is in the current working directory and the default filename is ``SRAmetadb.sqlite''; it is best to leave the name unchanged unless there is a pressing reason to change it.  Note: the above downloading and uncompressing steps could take quite a fews moments due to file size,  depdending on your network bandwidth. If interested, it can be timed using the following commands:
 
+<<>>=
 timeStart <- proc.time()
 sqlfile <- getSRAdbFile()
 proc.time() - timeStart
+@
 
 Since this SQLite file is of key importance in \Rpackage{SRAdb}, it is perhaps of some interest to know some details about the file itself.
 
@@ -86,7 +88,7 @@ For further details, at this time see \code{help('SRAdb-package')}.
 
 \subsection{Interacting with the database}
 The functionality covered in this section is covered in much more detail in the \Rpackage{DBI} and \Rpackage{RSQLite} package documentation.  We cover enough here only to be useful.
-The \Rfunction{dbListTables} function lists all the tables in the SQLite database handled by the connection object \Robject{sra\_con} created in the previous section. Please see the relationship of the SRA main data types in the Figure 1.
+The \Rfunction{dbListTables} function lists all the tables in the SQLite database handled by the connection object \Robject{sra\_con} created in the previous section. A simplified illustration of the relationship between the SRA main data types is shown in the Figure 1.
 <<>>=
 sra_tables <- dbListTables(sra_con)
 sra_tables
@@ -94,7 +96,7 @@ sra_tables
 
 There is also the \Rfunction{dbListFields} function that can list database fields associated with a table.  
 <<>>=
-dbListFields(sra_con,'study')
+dbListFields(sra_con,"study")
 @ 
 
 Sometimes it is useful to get the actual SQL schema associated with a table.  As an example of doing this and using an \Rclass{RSQLite} shortcut function, \Rfunction{sqliteQuickSQL}, we can get the table schema for the \textit{study} table:
@@ -326,6 +328,12 @@ IGVsnapshot(sock)
 
 \section{Graphic view of SRA entities}
 
+\begin{figure}
+  \includegraphics[width=1.0\textwidth]{sraGraph}
+  \caption{A graphical representation (sometimes called an \textit{Entity-Relationship Diagram}) of the relationships between the SRA entities.}
+  \label{figure:ERD}
+\end{figure}
+
 Due to the nature of SRA data and its design, sometimes it is hard to get a whole picture of the relationship between a set of SRA entities. Functions of \Rfunction{entityGraph} and \Rfunction{sraGraph} in this package generate graphNEL objects with edgemode='directed' from input data.frame or directly from search terms, and then the \Rfunction{plot} function can easily draw a diagram.
 
 Create a graphNEL object directly from full text search results of terms 'primary thyroid cell line'
@@ -347,12 +355,6 @@ plot(g)
 
 Please see the Figure 2 for an example diagram.
 
-\begin{figure}
-  \includegraphics[width=1.0\textwidth]{sraGraph}
-  \caption{A graphical representation (sometimes called an \textit{Entity-Relationship Diagram}) of the relationships between the SRA entities.}
-  \label{figure:ERD}
-\end{figure}
-
 It's considered good practise to explicitely disconnect from the database
 once we are done with it:
 <<>>=
@@ -361,9 +363,9 @@ dbDisconnect(sra_con)
 
 \section{Example use case}
 
-This sesection will use the functionalities in the SRAdb package to explore data from the 1000 genomes project.  Mainly, 
+This sesection will use the functionalities in the \Rpackage{SRAdb} package to explore data from the 1000 genomes project.  Mainly, 
 
-1. Get some statistics of meta data and data files from the 1000 genomes project using the SRAdb
+1. Get some statistics of meta data and data files from the 1000 genomes project using the \Rpackage{SRAdb}
 2. Download data files
 3. Load bam files into the IGV from R
 4. Create some snapshoots programmtically from R
@@ -388,8 +390,36 @@ head(rs)
 
 ## get counts for each data types
 apply( rs, 2, function(x) {length(unique(x))} )
-
 @
+
+After you decided what data from the 1000 Genomes, you would like to download data files from the SRA. But, it might be helpful to know file size before downloading them:
+
+<<eval=false>>=
+runs <- tail(rs$run)
+fs <- getSRAinfo( runs, sra_con, sraType = "sra" )
+@
+
+Now you can download the files through ftp protocol:
+<<eval=false>>=
+getSRAfile( runs, sra_con, fileType ='sra', srcType = "ftp" )
+@
+
+Or, you can download them through fasp protocol:
+<<eval=false>>=
+ascpCMD <- "'/Applications/Aspera Connect.app/Contents/Resources/ascp' -QT -l 300m -i '/Applications/Aspera Connect.app/Contents/Resources/asperaweb_id_dsa.putty'"
+
+sra_files = getSRAfile( runs, sra_con, fileType ='sra', srcType = "fasp", ascpCMD = ascpCMD )
+@
+
+Next you might want to convert the downloaded sra files into fastq files:
+<<eval=false>>=
+for( fq in basename(sra_files$fasp) ) {
+	system ("fastq-dump SRR000648.lite.sra")
+}
+@
+
+...
+to be compeleted.
 
 \section{sessionInfo}
 
