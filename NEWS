@@ -1,0 +1,61 @@
+1.1.6	2010-03-13
+
+	o New package
+	
+1.1.7	2010-03-16
+	o Added function entityGraph
+	o Added function sraGraph
+	o Modified related help pages
+
+1.1.8	2010-03-17
+	o Made various changes according to the reviewer's comments
+	o More examples executable
+	o Fixed some bugs
+	o Added more help contents
+
+1.1.9	2010-03-20
+	o Change argument of destdir  in getFastq to be required
+	o Fixed some bugs
+	o Imporoved help contents
+
+1.1.10	2010-03-21
+	o Fixed some bugs
+
+1.1.11	2010-04-10
+	o Use 'TRUE' rather than 'T'
+    o Format SQL consistently as SELECT * FROM table, etc.
+    o Avoid long lines in code
+    o Use message() rather than print() or cat() to communicate with
+      user
+    o Expose 'method' argument of download.file
+
+1.1.12	2010-04-12
+    o Now using socket connections for interacting with IGV
+    o load2IGV and load2newIGV retired
+    o IGVload, IGVgenome, IGVgoto, and IGVsnapshot introduced as 
+      replacements for the single load2... commands
+
+1.3.0	2010-04-22
+    o New version for bioc-dev 2.7
+
+1.3.1	2010-04-23
+    o Added IGVsession function
+    o Moved IGVsnapshotDirectory functionality into IGVsnapshot
+    o Removed IGVsnapshotDirectory
+    o Modified all corresponding help pages
+ 
+1.3.2	2010-09-07
+    o Added IGVsort function
+    o Added IGVcollapse function
+    o Added function to check fastq file type inside of listFastq
+
+1.5.0	2010-10-18
+    o Added IGVsession function
+
+1.5.1	2011-01-06
+    o Removed functions of listFastq, getFastqInfo, getFastq
+    o Added listSRAfile function
+    o Added getSRAinfo function
+    o Added getSRAfile function
+
+	

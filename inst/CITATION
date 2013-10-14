@@ -1,0 +1,10 @@
+bibentry(bibtype="Article",
+  title="SRAdb: query and use public next-generation sequencing data from within R",
+  author="Yuelin Zhu and Robert M. Stephens and Paul S. Meltzer and Sean R. Davis",
+  journal="BMC bioinformatics",
+  volume="14",
+  number="1",
+  pages="19",
+  year="2013",
+  publisher="BioMed Central Ltd"
+)
