@@ -45,7 +45,7 @@ High throughput sequencing technologies have very rapidly become standard tools 
 
 Accessing data in SRA requires finding it first.  This R package provides a convenient and powerful framework to do just that.  In addition, \Rpackage{SRAdb} features functionality to determine availability of sequence files and to download files of interest.  
 
-SRA does not currently store aligned reads or any other processed data that might rely on alignment to a reference genome.  However, NCBI GEO does often contain aligned reads for sequencing experiments and the \Rpackage{SRAdb} package can help to provide links to these data as well.  In combination with the \Rpackage{GEOmetadb} and \Rpackage{GEOquery} packages, these data are also, then, accessible.
+SRA currently stores aligned reads or any other processed data that might rely on alignment to a reference genome. Please refer to the SRA handbook (http://www.ncbi.nlm.nih.gov/books/NBK47537/) for details.  NCBI GEO also often contain aligned reads for sequencing experiments and the \Rpackage{SRAdb} package can help to provide links to these data as well.  In combination with the \Rpackage{GEOmetadb} and \Rpackage{GEOquery} packages, these data are also, then, accessible.
 
 \begin{figure}
   \includegraphics[width=1.0\textwidth]{SRAdiagram}
