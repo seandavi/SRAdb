@@ -1,8 +1,8 @@
 Package: SRAdb
 Type: Package
 Title: A compilation of metadata from NCBI SRA and tools
-Version: 1.19.0
-Date: 2013-01-24
+Version: 1.19.1
+Date: 2014-09-27
 Depends: RSQLite (>= 0.8-4) , graph, RCurl
 Imports: GEOquery
 Suggests: Rgraphviz
@@ -28,4 +28,5 @@ Description: The Sequence Read Archive (SRA) is the largest public
 License: Artistic-2.0
 LazyLoad: yes
 URL: http://gbnci.abcc.ncifcrf.gov/sra/
+BugReports: https://github.com/seandavi/SRAdb/issues/new
 biocViews: Infrastructure, Sequencing, DataImport
