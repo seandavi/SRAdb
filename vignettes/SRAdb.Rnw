@@ -96,9 +96,9 @@ There is also the \Rfunction{dbListFields} function that can list database field
 dbListFields(sra_con,"study")
 @ 
 
-Sometimes it is useful to get the actual SQL schema associated with a table.  As an example of doing this and using an \Rclass{RSQLite} shortcut function, \Rfunction{sqliteQuickSQL}, we can get the table schema for the \textit{study} table:
+Sometimes it is useful to get the actual SQL schema associated with a table.  Here, we get the table schema for the \textit{study} table:
 <<>>=
-sqliteQuickSQL(sra_con,'PRAGMA TABLE_INFO(study)')
+dbGetQuery(sra_con,'PRAGMA TABLE_INFO(study)')
 @ 
 
 The table "col\_desc" contains information of filed name, type, descritption and default values: 
@@ -420,7 +420,7 @@ to be compeleted.
 
 \section{sessionInfo}
 
-<<results=tex>>=
+<<results=tex,echo=FALSE>>=
 toLatex(sessionInfo())
 @ 
 
