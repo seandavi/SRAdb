@@ -7,12 +7,7 @@
 %\VignetteDepends{RSQLite, RCurl}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[12pt]{article}
-\usepackage{amsmath,pstricks,fullpage}
-% With MikTeX 2.9, using pstricks also requires using auto-pst-pdf or running
-% pdflatex will fail. Note that using auto-pst-pdf requires to set environment
-% variable MIKTEX_ENABLEWRITE18=t on Windows, and to set shell_escape = t in
-% texmf.cnf for Tex Live on Unix/Linux/Mac.
-\usepackage{auto-pst-pdf}
+\usepackage{amsmath,fullpage}
 \usepackage{hyperref}
 
 \newcommand{\R}{{\textsf{R}}}
@@ -26,6 +21,7 @@
 \newcommand{\Rfunarg}[1]{{\textit{#1}}}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \title{Using the \Rpackage{SRAdb} Package to Query the Sequence Read Archive}
 \author{Jack Zhu\footnote{zhujack@mail.nih.gov} and Sean Davis\footnote{sdavis2@mail.nih.gov}\\
   \\
@@ -59,12 +55,13 @@ Since SRA is a continuously growing repository, the \Rpackage{SRAdb} SQLite file
 
 <<>>=
 library(SRAdb)
-sqlfile <- getSRAdbFile()
+sqlfile <- 'SRAmetadb.sqlite'
+if(!file.exists('SRAmetadb.sqlite')) sqlfile <<- getSRAdbFile()
 @ 
 
 The default storage location is in the current working directory and the default filename is ``SRAmetadb.sqlite''; it is best to leave the name unchanged unless there is a pressing reason to change it.  Note: the above downloading and uncompressing steps could take quite a fews moments due to file size,  depdending on your network bandwidth. If interested, it can be timed using the following commands:
 
-<<>>=
+<<eval=FALSE>>=
 timeStart <- proc.time()
 sqlfile <- getSRAdbFile()
 proc.time() - timeStart
@@ -330,8 +327,8 @@ IGVsnapshot(sock)
 
 \begin{figure}
   \includegraphics[width=1.0\textwidth]{sraGraph}
-  \caption{A graphical representation (sometimes called an \textit{Entity-Relationship Diagram}) of the relationships between the SRA entities.}
-  \label{figure:ERD}
+  \caption{A graphical representation  of the relationships between the SRA entities.}
+  \label{figure:graph}
 \end{figure}
 
 Due to the nature of SRA data and its design, sometimes it is hard to get a whole picture of the relationship between a set of SRA entities. Functions of \Rfunction{entityGraph} and \Rfunction{sraGraph} in this package generate graphNEL objects with edgemode='directed' from input data.frame or directly from search terms, and then the \Rfunction{plot} function can easily draw a diagram.
