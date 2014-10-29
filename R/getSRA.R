@@ -3,7 +3,7 @@ function (search_terms, out_types=c('sra','submission','study','experiment','sam
 	
 	out_types <- match.arg(out_types, several.ok = T)
 	
-	sra_fields <- sqliteTableFields(sra_con, 'sra')
+	sra_fields <- dbGetQuery(sra_con, 'PRAGMA table_info(sra)')$name
 	sra_fields_indice <-
         list(run=seq(which(sra_fields=='run_ID')+1,
                      which(sra_fields=='experiment_ID')-1),
