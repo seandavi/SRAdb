@@ -14,24 +14,23 @@ getFASTQinfo <-
 function (in_acc, srcType = 'ftp') {
 	## trim any spaces
 	in_acc <- sub('\\s+','', in_acc, perl=TRUE)
-	in_acc <- toupper(in_acc)
-	## loop
-	fastqFiles <- data.frame()
-	for ( acc in in_acc ) {
-		src <- paste('http://www.ebi.ac.uk/ena/data/view/reports/sra/fastq_files/', acc, sep='')
-		if( !inherits(try( con <- file(src, 'r'), silent = TRUE), "try-error" )) {
-			fastqFiles1 <- read.delim(con, stringsAsFactors = FALSE)
-			fastqFiles <- rbind(fastqFiles, fastqFiles1)
-			close(con)
-		} else {
-			print(paste( "No fastq file for ", acc, sep=''))	
-		}
-	}
-	fastqFiles <- unique(fastqFiles)
-	names (fastqFiles) <- tolower (names(fastqFiles))
+	sra_acc = sraConvert( in_acc,  sra_con=sra_con  )
+	
+	sra_acc_run = paste("'", paste(sra_acc$run, collapse = "','"),"'", sep="");
+	sql <- paste ("SELECT * FROM fastqlist WHERE fastqlist_accession IN (", sra_acc_run, ")", sep = "");				  			 
+	rs_fq <- dbGetQuery(sra_con, sql);	
+	names(rs_fq) <- sub('fastqlist_accession', 'run', names(rs_fq))
+	names(rs_fq) <- sub('run_accession', 'run', names(rs_fq))
+	names(rs_fq) <- sub('file_name', 'ftp', names(rs_fq))	
+	
+	## format ftp URLs
+	rs_fq$ftp <- file.path('ftp://ftp.sra.ebi.ac.uk/vol1/fastq', substring(rs_fq$run, 1, 6), rs_fq$run, rs_fq$ftp)
+
+	## merge acc to the fastq ftp
+	fastqFiles <- merge(sra_acc, rs_fq, by='run', all.x=TRUE) 
 	if( srcType == 'fasp' ) {
 		fastqFiles$ftp <- sub('ftp://ftp.sra.ebi.ac.uk/', 'era-fasp@fasp.sra.ebi.ac.uk:', fastqFiles$ftp)	
-		names(fastqFiles)[ncol(fastqFiles)] <- 'fasp'	
+		names(fastqFiles) <- sub('ftp', 'fasp', names(fastqFiles))	
 	} 
 	return(fastqFiles);
 }

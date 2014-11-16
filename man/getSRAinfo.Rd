@@ -2,7 +2,7 @@
 \alias{getSRAinfo}
 \title{Get SRA data file information from NCBI SRA}
 \description{
-This function gets SRA .sra or .lite.sra file information from NCBI SRA ftp site  for a given list SRA accessions.
+This function gets SRA .sra file information from NCBI SRA ftp site  for a given list SRA accessions.
 }
 \usage{
 getSRAinfo( in_acc, sra_con, sraType = 'sra' )
@@ -15,7 +15,7 @@ character vector of SRA accessions, which should be in same SRA data type, eithe
 connection to the SRAmetadb SQLite database
 }
   \item{sraType}{
-type of SRA data files, which should be either  'sra' or 'litesra'.
+type of SRA data files, which should be 'sra' ('litesra' has phased out ).
 }
 }
 \details{
@@ -38,7 +38,7 @@ if(file.exists('SRAmetadb.sqlite')) {
 	sra_con <- dbConnect(dbDriver("SQLite"), sra_dbname)
 	
 	## Get file size and date from NCBI ftp site for available fastq files associated with "SRS012041","SRS000290"
-	# getSRAinfo (in_acc=c("SRS012041","SRS000290"), sra_con=sra_con, sraType='litesra')
+	# getSRAinfo (in_acc=c("SRS012041","SRS000290"), sra_con=sra_con, sraType='sra')
 
 } else {
   	print(" use getSRAdbFile() to get a copy of the SRAmetadb.sqlite file  and then rerun the example")

@@ -52,11 +52,11 @@ if(file.exists('SRAmetadb.sqlite')) {
   
   ## Get file size and date from NCBI ftp site for available fastq files associated with "SRS012041","SRS000290" 
   \dontrun{  
-  getSRAinfo (in_acc=c("SRS012041","SRS000290"), sra_con=sra_con, sraType='litesra')
+  getSRAinfo (in_acc=c("SRS012041","SRS000290"), sra_con=sra_con, sraType='sra')
   }
 
-  ## Download litesra files from NCBI SRA using ftp protocol:
-  getSRAfile( in_acc = c("SRR000648","SRR000657"), sra_con = sra_con, destDir = getwd(), fileType = 'litesra' )
+  ## Download sra files from NCBI SRA using ftp protocol:
+  getSRAfile( in_acc = c("SRR000648","SRR000657"), sra_con = sra_con, destDir = getwd(), fileType = 'sra' )
   ## Download fastq files from EBI using ftp protocol:
   getSRAfile( in_acc, sra_con, destDir = getwd(), fileType = 'fastq', srcType = 'ftp', makeDirectory = FALSE, method = 'curl', ascpCMD = NULL )
    
