@@ -1,23 +1,22 @@
-## listSRAfile is to list ftp addresses or ascp sources of sra or lite.sra files
-## options for fileType: 'litesra', 'sra', 'fastq'
+## listSRAfile is to list ftp addresses or ascp sources of sra files
+## options for fileType: 'sra', 'fastq'
 ## srcType: 'ftp' or 'fasp' 
 
 ## ftp example:
 # ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByExp/sra/SRX/SRX037/SRX037195/SRR089790/SRR089790.sra
-# ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByExp/litesra/SRX/SRX037/SRX037195/SRR089790/SRR089790.lite.sra
 
 ## fasp example::
-#  anonftp@ftp-trace.ncbi.nlm.nih.gov:/sra/sra-instant/reads/ByExp/litesra/SRX/SRX000/SRX000122/SRR000657/SRR000657.lite.sra 
+#  anonftp@ftp-trace.ncbi.nlm.nih.gov:/sra/sra-instant/reads/ByExp/sra/SRX/SRX000/SRX000122/SRR000657/SRR000657.sra 
 # listSRAfile (in_acc=c("SRX000122"), sra_con=sra_con, fileType='fastq', srcType='fasp')
 
 listSRAfile <-
 function( in_acc, sra_con, fileType='sra', srcType='ftp' ) {
+	## note: 'litesra' has phased out 
 	if( fileType == 'fastq' ) {
 		sra_acc = sraConvert( in_acc, out_type=c('run'), sra_con )
 		sraFiles = getFASTQinfo (sra_acc$run, srcType)
-	} else if (fileType == 'litesra' | fileType == 'sra') {
-		## NCBI SRA is phasing out 'litesra' and 'litesra' ftp is point to the 'sra'
-		if( fileType == 'litesra' ) { sraExt <- '.sra'; } else { sraExt <- '.sra';}
+	} else if (fileType == 'sra') {
+		sraExt <- '.sra'
 		sra_acc  <- sraConvert (in_acc, out_type = c('study','sample','experiment','run'),
 	                            sra_con= sra_con)	
 		

@@ -15,7 +15,7 @@ character vector of SRA accessions, which should be in same SRA data type, eithe
 connection to the SRAmetadb SQLite database
 }
   \item{fileType}{
-types of SRA data files, which should be 'sra',  'litesra' or 'fastq'.
+types of SRA data files, which should be 'sra' or 'fastq'. ('litesra' has phased out ).
 }
   \item{srcType}{
   type of transfer protocol, which should be "ftp" or  "fasp". 
@@ -23,7 +23,7 @@ types of SRA data files, which should be 'sra',  'litesra' or 'fastq'.
 
 }
 \details{
-SRA fastq files are hosted at EBI ftp site (ftp://ftp.sra.ebi.ac.uk/vol1/fastq/) and .sra or .lite.sra files are hosted at NCBI ftp site (ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/). Note: NCBI SRA is phasing out 'litesra' files and currently 'litesra' ftp addresses are pointing to the 'sra' files.
+SRA fastq files are hosted at EBI ftp site (ftp://ftp.sra.ebi.ac.uk/vol1/fastq/) and .sra  files are hosted at NCBI ftp site (ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/). 'litesra' has phased out.
 }
 \value{
 A data frame of matched SRA accessions and data file names with ftp or fasp addresses. 

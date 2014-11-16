@@ -31,8 +31,7 @@ function (in_acc, destDir=getwd(), srcType='ftp', makeDirectory=FALSE, method='c
 		    download.file(i, destfile = file.path(destDir, basename(i)),
 		                  method=method)
 		}
-	} else if (srcType=='fasp'  & !is.null(ascpCMD)) {
-		
+	} else if (srcType=='fasp'  & !is.null(ascpCMD)) {		
 		ascpR (ascpCMD, sraFiles$fasp, destDir)	
 	}
      return(sraFiles)	
