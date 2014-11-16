@@ -2,10 +2,10 @@
 \alias{getSRAfile}
 \title{Download SRA data file through ftp or fasp }
 \description{
-This function downloads sra and sra-lite data files associated with input SRA accessions from NCBI SRA or downloads fastq files from EBI ENA through ftp or fasp protocol.  
+This function downloads sra data files associated with input SRA accessions from NCBI SRA or downloads fastq files from EBI ENA through ftp or fasp protocol.  
 }
 \usage{
-getSRAfile( in_acc, sra_con, destDir = getwd(), fileType = 'litesra', srcType = 'ftp', makeDirectory = FALSE, method = 'curl', ascpCMD = NULL )
+getSRAfile( in_acc, sra_con, destDir = getwd(), fileType = 'sra', srcType = 'ftp', makeDirectory = FALSE, method = 'curl', ascpCMD = NULL )
 }
 \arguments{
   \item{in_acc}{
@@ -18,7 +18,7 @@ Connection to the SRAmetadb SQLite database
   destination directory to save downloaded files.
 }
   \item{fileType}{
- type of SRA data files, which should be "sra",  "litesra" or "fastq".
+ type of SRA data files, which should be "sra", or "fastq" ('litesra' has phased out ).
 }
   \item{srcType}{
   type of transfer protocol, which should be "ftp" or  "fasp".
@@ -54,13 +54,13 @@ if( file.exists( 'SRAmetadb.sqlite' ) ) {
 	sra_con <- dbConnect( dbDriver("SQLite"), sra_dbname )
 	
 	\dontrun{
-	## Download litesra files from NCBI SRA using ftp protocol:
-	getSRAfile( in_acc = c("SRR000648","SRR000657"), sra_con = sra_con, destDir = getwd(), fileType = 'litesra' )
+	## Download sra files from NCBI SRA using ftp protocol:
+	getSRAfile( in_acc = c("SRR000648","SRR000657"), sra_con = sra_con, destDir = getwd(), fileType = 'sra' )
 	
-	## Convert NCBI SRA format (.lite.sra or .sra) data to fastq:
+	## Convert NCBI SRA format (.sra) data to fastq:
 	## Download SRA Toolkit: http://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?cmd=show&f=software&m=software&s=software 
 	## Run fastq-dump to 
-	## system ("fastq-dump SRR000648.lite.sra")
+	## system ("fastq-dump SRR000648.sra")
 	
 	## Download fastq files from EBI using ftp protocol:
 	getSRAfile( in_acc, sra_con, destDir = getwd(), fileType = 'fastq', srcType = 'ftp', makeDirectory = FALSE, method = 'curl', ascpCMD = NULL )

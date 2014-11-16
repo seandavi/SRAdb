@@ -2,10 +2,10 @@
 \alias{ascpSRA}
 \title{Fasp SRA data file downloading using the ascp command line program }
 \description{
-This function downloads SRA data files (fastq, sra or litesra) by fasp protocol using Aspera's ascp command line program, which is included in Aspera Connect software (http://www.asperasoft.com/). 
+This function downloads SRA data files (fastq, sra ) by fasp protocol using Aspera's ascp command line program, which is included in Aspera Connect software (http://www.asperasoft.com/). 
 }
 \usage{
-ascpSRA ( in_acc, sra_con, ascpCMD, fileType = 'litesra', destDir = getwd() )
+ascpSRA ( in_acc, sra_con, ascpCMD, fileType = 'sra', destDir = getwd() )
 }
 \arguments{
   \item{in_acc}{
@@ -18,7 +18,7 @@ connection to the SRAmetadb SQLite database.
  ascp main commands, which should be constructed by a user according to the actual installation of Aspera Connect in the system, with proper options to be used.  Example commands: "ascp -QT -l 300m -i /usr/local/aspera/connect/etc/asperaweb_id_dsa.putty" (Linux) or "'/Applications/Aspera Connect.app/Contents/Resources/ascp' -QT -l 300m -i '/Applications/Aspera Connect.app/Contents/Resources/asperaweb_id_dsa.putty'" (Mac OS X).  More about ascp please see the help ('ascp -h' in a shell).
 }
   \item{fileType}{
- type of SRA data files, which should be "sra",  "litesra" or "fastq".
+ type of SRA data files, which should be "sra",  or "fastq" ('litesra' has phased out ).
 }
   \item{destDir}{
   destination directory to save downloaded files.
@@ -51,7 +51,7 @@ if( file.exists('SRAmetadb.sqlite') ) {
 	## common ascpCMD for a system with Mac OS X:
 	#ascpCMD <- "'/Applications/Aspera Connect.app/Contents/Resources/ascp' -QT -l 300m -i '/Applications/Aspera Connect.app/Contents/Resources/asperaweb_id_dsa.putty'"
 	
-	sraFiles <- ascpSRA( in_acc, sra_con, ascpCMD, fileType = 'litesra', destDir=getwd() )
+	sraFiles <- ascpSRA( in_acc, sra_con, ascpCMD, fileType = 'sra', destDir=getwd() )
 	dbDisconnect(sra_con)
 	}
 } else {
