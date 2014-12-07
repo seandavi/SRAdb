@@ -2,6 +2,9 @@
 ## in_acc: can be one or more these types: study,sample, experiment, run
 ## srcType can be 'ftp' or 'fasp'
 
+## Note EBI added <dir2> for run accesions wirh over 6 digits -details please see http://www.ebi.ac.uk/ena/browse/read-download#archive_generated_fastq_files
+## e.g. ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR101/006/SRR1016916/SRR1016916.fastq.gz
+
 ## fasp example:
 # era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/SRR392/SRR392120/SRR392120.fastq.gz .
 
@@ -24,8 +27,17 @@ function (in_acc, srcType = 'ftp') {
 	names(rs_fq) <- sub('file_name', 'ftp', names(rs_fq))	
 	
 	## format ftp URLs
-	rs_fq$ftp <- file.path('ftp://ftp.sra.ebi.ac.uk/vol1/fastq', substring(rs_fq$run, 1, 6), rs_fq$run, rs_fq$ftp)
-
+	## Note EBI added <dir2> for run accesions wirh over 6 digits -details please see http://www.ebi.ac.uk/ena/browse/read-download#archive_generated_fastq_files
+	
+	for( i in 1:length(rs_fq$run) ) {
+		run1 = run1
+		if( nchar(run1) < 10 ) {
+			rs_fq$ftp[i] <- file.path('ftp://ftp.sra.ebi.ac.uk/vol1/fastq', substring(run1, 1, 6), run1, rs_fq$ftp[i])
+		} else {
+			dir2 <- paste( c(rep(x='0', 12-nchar(run1)), substring(run1, 10, nchar(run1)) ), collapse = '' )
+			rs_fq$ftp[i] <- file.path('ftp://ftp.sra.ebi.ac.uk/vol1/fastq', substring(run1, 1, 6), dir2, run1, rs_fq$ftp[i])
+		}	
+	}
 	## merge acc to the fastq ftp
 	fastqFiles <- merge(sra_acc, rs_fq, by='run', all.x=TRUE) 
 	if( srcType == 'fasp' ) {
