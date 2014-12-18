@@ -30,7 +30,7 @@ function (in_acc, srcType = 'ftp') {
 	## Note EBI added <dir2> for run accesions wirh over 6 digits -details please see http://www.ebi.ac.uk/ena/browse/read-download#archive_generated_fastq_files
 	
 	for( i in 1:length(rs_fq$run) ) {
-		run1 = run1
+		run1 = rs_fq$run[i]
 		if( nchar(run1) < 10 ) {
 			rs_fq$ftp[i] <- file.path('ftp://ftp.sra.ebi.ac.uk/vol1/fastq', substring(run1, 1, 6), run1, rs_fq$ftp[i])
 		} else {
