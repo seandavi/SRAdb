@@ -13,7 +13,7 @@ listSRAfile <-
 function( in_acc, sra_con, fileType='sra', srcType='ftp' ) {
 	## note: 'litesra' has phased out 
 	if( fileType == 'fastq' ) {
-		sra_acc = sraConvert( in_acc, out_type=c('run'), sra_con )
+		sra_acc = sraConvert( in_acc, out_type=c('run'), sra_con = sra_con )
 		sraFiles = getFASTQinfo (sra_acc$run, srcType)
 	} else if (fileType == 'sra') {
 		sraExt <- '.sra'
