@@ -64,5 +64,7 @@
     o Fastq files can be downloaded by getFastqFile or getSRAfile
     o Added <dir2> to the fastq ftp addresses for SRR accessions over SRR999999
 
+1.21.11	2015-03-22
+    o Fixed a bug with listSRAfile function.
 
 	
