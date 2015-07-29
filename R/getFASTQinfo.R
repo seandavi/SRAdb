@@ -14,7 +14,7 @@
 # getFASTQinfo (in_acc=c("SRR000648","SRR000657"), srcType='fasp')
 
 getFASTQinfo <-
-function (in_acc, srcType = 'ftp') {
+function (in_acc, sra_con, srcType = 'ftp') {
 	## trim any spaces
 	in_acc <- sub('\\s+','', in_acc, perl=TRUE)
 	sra_acc = sraConvert( in_acc,  sra_con=sra_con  )
