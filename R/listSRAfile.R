@@ -14,7 +14,7 @@ function( in_acc, sra_con, fileType='sra', srcType='ftp' ) {
 	## note: 'litesra' has phased out 
 	if( fileType == 'fastq' ) {
 		sra_acc = sraConvert( in_acc, out_type=c('run'), sra_con = sra_con )
-		sraFiles = getFASTQinfo (sra_acc$run, srcType)
+		sraFiles = getFASTQinfo (sra_acc$run, sra_con, srcType)
 	} else if (fileType == 'sra') {
 		sraExt <- '.sra'
 		sra_acc  <- sraConvert (in_acc, out_type = c('study','sample','experiment','run'),
