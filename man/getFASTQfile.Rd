@@ -5,11 +5,14 @@
 This function downloads SRA fastq data files through ftp or fasp from EBI ENA site for a given list of SRA accessions. 
 }
 \usage{
-getFASTQfile( in_acc, destDir = getwd(), srcType = 'ftp', makeDirectory = FALSE, method = 'curl', ascpCMD = NULL)
+getFASTQfile( in_acc, sra_con, destDir = getwd(), srcType = 'ftp', makeDirectory = FALSE, method = 'curl', ascpCMD = NULL)
 }
 \arguments{
   \item{in_acc}{
 character vector of SRA accessions that could be be in one or more SRA sata types: study, sample, experiment and/or run.
+}
+  \item{sra_con}{
+connection to the SRAmetadb SQLite database
 }
   \item{destDir}{
  destination directory to save downloaded fastq files
@@ -48,13 +51,13 @@ if(file.exists('SRAmetadb.sqlite')) {
 	sra_con <- dbConnect( dbDriver("SQLite"), sra_dbname )
 	
 	## Download fastq files from EBI ENA  through ftp
-	getFASTQfile( in_acc = c("SRR000648","SRR000657"), destDir = getwd(), srcType = 'ftp', ascpCMD = NULL )
+	getFASTQfile( in_acc = c("SRR000648","SRR000657"), sra_con, destDir = getwd(), srcType = 'ftp', ascpCMD = NULL )
 		
 	## Download fastq files from EBI ENA  through fasp
 	ascpCMD <- 'ascp -QT -l 300m -i /usr/local/aspera/connect/etc/asperaweb_id_dsa.putty'
 	## common ascpCMD for a system with Mac OS X:
 	#ascpCMD <- "'/Applications/Aspera Connect.app/Contents/Resources/ascp' -QT -l 300m -i '/Applications/Aspera Connect.app/Contents/Resources/asperaweb_id_dsa.putty'"	
-	getFASTQfile( in_acc = c("SRR000648","SRR000657"), srcType='fasp', ascpCMD=ascpCMD )
+	getFASTQfile( in_acc = c("SRR000648","SRR000657"), sra_con, srcType='fasp', ascpCMD=ascpCMD )
 	
 	dbDisconnect( sra_con )
 	}

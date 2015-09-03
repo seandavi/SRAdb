@@ -254,7 +254,7 @@ Then downloaded sra data files can be easily converted into fastq files using fa
 
 Or directly download fastq files from EBI using ftp protocol:
 <<eval=false>>=
-getFASTQinfo( c("SRR000648","SRR000657"), srcType = 'ftp' )
+getFASTQinfo( c("SRR000648","SRR000657"), sra_con, srcType = 'ftp' )
 
 getSRAfile( c("SRR000648","SRR000657"), sra_con, fileType = 'fastq' )
 @
@@ -268,7 +268,7 @@ Download fastq files from EBI  ftp siteusing fasp protocol:
 listSRAfile ( c("SRX000122"), sra_con, fileType = 'fastq', srcType='fasp')
 
 ## get fasp addresses for associated fastq files:
-getFASTQinfo( c("SRX000122"), srcType = 'fasp' )
+getFASTQinfo( c("SRX000122"), sra_con, srcType = 'fasp' )
 
 ## download fastq files using fasp protocol:
 # the following ascpCMD needs to be constructed according custom 
