@@ -10,7 +10,7 @@ getSRAdbFile <-
     
     url_sra_1 = 'http://gbnci.abcc.ncifcrf.gov/backup/SRAmetadb.sqlite.gz'
     url_sra_2 = 'http://watson.nci.nih.gov/~zhujack/SRAmetadb.sqlite.gz'
-    url_sra_3 = 'http://dl.dropbox.com/u/51653511/SRAmetadb.sqlite.gz'
+    url_sra_3 = 'https://dl.dropboxusercontent.com/u/51653511/SRAmetadb.sqlite.gz'
 
     if(! inherits(try(url(url_sra_1, open='rb'), silent = TRUE), "try-error") ) {
        url_sra = url_sra_1
