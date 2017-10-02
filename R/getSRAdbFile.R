@@ -8,16 +8,13 @@ getSRAdbFile <-
     localfile <- file.path(destdir, destfile)   
     options(warn=-1)
     
-    url_sra_1 = 'https://gbnci-abcc.ncifcrf.gov/backup/SRAmetadb.sqlite.gz'
-    url_sra_2 = 'https://dl.dropboxusercontent.com/u/51653511/SRAmetadb.sqlite.gz'
-    url_sra_3 = 'http://watson.nci.nih.gov/~zhujack/SRAmetadb.sqlite.gz'
+    url_sra_1 = 'https://s3.amazonaws.com/starbuck1/sradb/SRAmetadb.sqlite.gz'
+    url_sra_2 = 'https://gbnci-abcc.ncifcrf.gov/backup/SRAmetadb.sqlite.gz'
 
     if(! inherits(try(url(url_sra_1, open='rb'), silent = TRUE), "try-error") ) {
        url_sra = url_sra_1
-    } else if(! inherits(try(url(url_sra_2, open='rb'), silent = TRUE), "try-error") ) {
-       url_sra = url_sra_2
     } else {
-       url_sra = url_sra_3
+       url_sra = url_sra_2
     }
 
     download.file(url_sra, destfile = localfile, mode = "wb", method=method)

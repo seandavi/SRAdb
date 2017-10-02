@@ -1,8 +1,9 @@
+# SRAdb
 Package: SRAdb
 Type: Package
 Title: A compilation of metadata from NCBI SRA and tools
-Version: 1.37.0
-Date: 2017-09-29
+Version: 1.35.0
+Date: 2016-04-28
 Depends: RSQLite, graph, RCurl
 Imports: GEOquery
 Suggests: Rgraphviz
@@ -30,3 +31,5 @@ LazyLoad: yes
 URL: http://gbnci.abcc.ncifcrf.gov/sra/
 BugReports: https://github.com/seandavi/SRAdb/issues/new
 biocViews: Infrastructure, Sequencing, DataImport
+
+
