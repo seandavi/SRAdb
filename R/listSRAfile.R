@@ -28,12 +28,11 @@ function( in_acc, sra_con, fileType='sra', srcType='ftp' ) {
 		
 		sraFiles_1=NULL
 		for( i in 1:nrow(sra_acc) ) {			
-			sraFileDir<- paste(srcMain, '/sra/sra-instant/reads/ByExp/', fileType, 
+			sraFileDir<- paste(srcMain, '/sra/sra-instant/reads/ByRun/', fileType, 
 					'/',
-					substring(sra_acc$experiment[i], 1, 3), '/',
-					substring(sra_acc$experiment[i], 1, 6), '/',
-					sra_acc$experiment[i], '/', 
-					sra_acc$run[i], '/',
+					substring(sra_acc$run[i], 1, 3), '/',
+					substring(sra_acc$run[i], 1, 6), '/',
+					sra_acc$run[i], '/', 
 					sep='')
 				
 			if ( is.na(sra_acc$run[i]) ) {
