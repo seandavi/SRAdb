@@ -6,10 +6,10 @@
 
 ## my Mac example:
 # ascpCMD = 'ascp -QT -l 300m -i /usr/local/aspera/connect/etc/asperaweb_id_dsa.putty'
-# ascpSource = 'anonftp@ftp-trace.ncbi.nlm.nih.gov:/sra/sra-instant/reads/ByExp/sra/SRX/SRX000/SRX000122/SRR000657/SRR000657.sra'
+# ascpSource = 'anonftp@ftp-trace.ncbi.nlm.nih.gov:/sra/sra-instant/reads/ByRun/sra/SRR/SRR000/SRR000657/SRR000657.sra'
 # ascpSource = 'era-fasp@fasp.sra.ebi.ac.uk:vol1/fastq/SRR000/SRR000648/SRR000648.fastq.gz'
 # ascpR( ascpCMD, ascpSource, destDir=getwd() )
-#ascp -QT -l 300m -i /usr/local/aspera/connect/etc/asperaweb_id_dsa.putty anonftp@ftp-trace.ncbi.nlm.nih.gov:/sra/sra-instant/reads/ByExp/sra/SRX/SRX000/SRX000122/SRR000657/SRR000657.sra .
+#ascp -QT -l 300m -i /usr/local/aspera/connect/etc/asperaweb_id_dsa.putty anonftp@ftp-trace.ncbi.nlm.nih.gov:/sra/sra-instant/reads/ByRun/sra/SRR/SRR000/SRR000657/SRR000657.sra .
 #/usr/local/bin/ascp -QT -l 300m -i /usr/local/aspera/connect/etc/asperaweb_id_dsa.putty era-fasp@fasp.sra.ebi.ac.uk:vol1/fastq/SRR000/SRR000648/SRR000648.fastq.gz  .
 
 ascpR <- function ( ascpCMD, ascpSource, destDir = getwd() ) {
