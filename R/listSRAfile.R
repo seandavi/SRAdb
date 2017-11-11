@@ -3,10 +3,10 @@
 ## srcType: 'ftp' or 'fasp' 
 
 ## ftp example:
-# ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByExp/sra/SRX/SRX037/SRX037195/SRR089790/SRR089790.sra
+# ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByRun/sra/SRR/SRR089/SRR089790/SRR089790.sra
 
-## fasp example::
-#  anonftp@ftp-trace.ncbi.nlm.nih.gov:/sra/sra-instant/reads/ByExp/sra/SRX/SRX000/SRX000122/SRR000657/SRR000657.sra 
+## fasp example:
+#  anonftp@ftp-trace.ncbi.nlm.nih.gov:/sra/sra-instant/reads/ByRun/sra/SRR/SRR089/SRR089790/SRR089790.sra
 # listSRAfile (in_acc=c("SRX000122"), sra_con=sra_con, fileType='fastq', srcType='fasp')
 
 listSRAfile <-
@@ -28,11 +28,10 @@ function( in_acc, sra_con, fileType='sra', srcType='ftp' ) {
 		
 		sraFiles_1=NULL
 		for( i in 1:nrow(sra_acc) ) {			
-			sraFileDir<- paste(srcMain, '/sra/sra-instant/reads/ByExp/', fileType, 
+			sraFileDir<- paste(srcMain, '/sra/sra-instant/reads/ByRun/', fileType, 
 					'/',
-					substring(sra_acc$experiment[i], 1, 3), '/',
-					substring(sra_acc$experiment[i], 1, 6), '/',
-					sra_acc$experiment[i], '/', 
+					substring(sra_acc$run[i], 1, 3), '/',
+					substring(sra_acc$run[i], 1, 6), '/',
 					sra_acc$run[i], '/',
 					sep='')
 				
