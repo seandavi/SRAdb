@@ -25,7 +25,7 @@ function( in_acc, sra_con, sraType = 'sra' ) {
                      gregexpr("\\s", file_date1, perl=TRUE)[[1]][4]-1 ) )
 	  	file_size <-
             c(file_size,
-              ceiling(as.integer(sub('\\s+.*$','', x2, perl=TRUE)) / 1024) )
+              ceiling(as.numeric(sub('\\s+.*$','', x2, perl=TRUE)) / 1024) )
 		## curlPerform sometimes gives 'Access denied: 530' error
 		Sys.sleep(0.5)
 	}
