@@ -1,4 +1,5 @@
 # SRAdb
+
 Package: SRAdb
 Type: Package
 Title: A compilation of metadata from NCBI SRA and tools
@@ -28,8 +29,10 @@ Description: The Sequence Read Archive (SRA) is the largest public
         can be downloaded at will for the most up-to-date metadata.
 License: Artistic-2.0
 LazyLoad: yes
-URL: http://gbnci.abcc.ncifcrf.gov/sra/
 BugReports: https://github.com/seandavi/SRAdb/issues/new
 biocViews: Infrastructure, Sequencing, DataImport
 
+# Raw database downloads
 
+- [sqlite3 (.gz)](https://starbuck1.s3.amazonaws.com/sradb/SRAmetadb.sqlite.gz)
+- [MySQL (mysqldump.gz)](https://starbuck1.s3.amazonaws.com/sradb/SRAdb.mysqldump.gz)
