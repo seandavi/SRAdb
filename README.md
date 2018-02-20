@@ -1,5 +1,6 @@
 # SRAdb
 
+```
 Package: SRAdb
 Type: Package
 Title: A compilation of metadata from NCBI SRA and tools
@@ -31,6 +32,7 @@ License: Artistic-2.0
 LazyLoad: yes
 BugReports: https://github.com/seandavi/SRAdb/issues/new
 biocViews: Infrastructure, Sequencing, DataImport
+```
 
 # Raw database downloads
 
