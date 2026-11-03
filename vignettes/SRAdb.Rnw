@@ -36,6 +36,32 @@ options(width=50)
 
 \maketitle
 
+\section{Deprecation notice}
+\textbf{\Rpackage{SRAdb} is deprecated and will be removed from Bioconductor.}
+The SRAmetadb SQLite database is no longer updated; the last build is from
+December 2023, so it does not include SRA records submitted since then. Every
+function in the package now issues a deprecation warning.
+
+Use OmicIDX (\url{https://omicidx.cancerdatasci.org/}) instead. It provides
+daily updated metadata for NCBI SRA, GEO, BioSample and BioProject. From \R{},
+the \Rpackage{omicidxr} package replaces \Rpackage{SRAdb}:
+
+\begin{verbatim}
+pak::pak("seandavi/omicidxr")
+library(omicidxr)
+con <- omicidx_connect()
+DBI::dbGetQuery(con, "SELECT * FROM sradb.study LIMIT 5")
+sra_convert(con, "SRP001007", "run")
+\end{verbatim}
+
+The \code{sradb} schema in OmicIDX follows the \Rpackage{SRAdb} tables, so most
+SQL in this vignette ports by prefixing table names with \code{sradb.}. There
+are no SRA submission tables. See the omicidxr migration guide:
+\url{https://omicidx.cancerdatasci.org/guides/r-omicidxr.html}.
+
+The rest of this vignette is kept for existing users during the deprecation
+period.
+
 \section{Introduction}
 High throughput sequencing technologies have very rapidly become standard tools in biology.  The data that these machines generate are large, extremely rich.  As such, the Sequence Read Archives (SRA) have been set up at NCBI in the United States, EMBL in Europe, and DDBJ in Japan to capture these data in public repositories in much the same spirit as MIAME-compliant microarray databases like NCBI GEO and EBI ArrayExpress.  
 
@@ -51,7 +77,7 @@ SRA currently store aligned reads or other processed data that relies on alignme
 
 
 \section{Getting Started}
-Since SRA is a continuously growing repository, the \Rpackage{SRAdb} SQLite file is updated regularly.  The first step, then, is to get the \Rpackage{SRAdb} SQLite file from the online location.  The download and uncompress steps are done automatically with a single command, getSRAdbFile.
+The \Rpackage{SRAdb} SQLite file is no longer updated (last build December 2023); see the deprecation notice above.  The first step is to get the \Rpackage{SRAdb} SQLite file from the online location.  The download and uncompress steps are done automatically with a single command, getSRAdbFile.
 
 <<>>=
 library(SRAdb)
