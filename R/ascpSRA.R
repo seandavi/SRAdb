@@ -15,6 +15,7 @@
 #/usr/local/bin/ascp -QT -l 300m -i /usr/local/aspera/connect/etc/asperaweb_id_dsa.putty era-fasp@fasp.sra.ebi.ac.uk:vol1/fastq/SRR000/SRR000648/SRR000648.fastq.gz  .
 
 ascpSRA <- function (in_acc, sra_con, ascpCMD, fileType='sra', destDir=getwd()) {	
+	.deprecatedSRAdb("ascpSRA")
 	sraFiles = listSRAfile (in_acc, sra_con, fileType, srcType='fasp') 
 	ascpR ( ascpCMD, sraFiles$fasp, destDir )
 	return (sraFiles)

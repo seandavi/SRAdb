@@ -11,6 +11,7 @@
 
 listSRAfile <-
 function( in_acc, sra_con, fileType='sra', srcType='ftp' ) {
+	.deprecatedSRAdb("listSRAfile")
 	## note: 'litesra' has phased out 
 	if( fileType == 'fastq' ) {
 		sra_acc = sraConvert( in_acc, out_type=c('run'), sra_con = sra_con )

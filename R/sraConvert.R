@@ -3,6 +3,7 @@ function (in_acc,
           out_type=c('sra','submission','study','sample','experiment','run'),
           sra_con)
 {
+	.deprecatedSRAdb("sraConvert")
 	out_type <- tolower(out_type);
 	out_type <- match.arg(out_type, several.ok = T)
 	if( is.element('sra',out_type) )

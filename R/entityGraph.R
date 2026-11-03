@@ -1,4 +1,5 @@
 entityGraph <- function (df) {
+	.deprecatedSRAdb("entityGraph")
 	#convert a vector to 1-row matrix
 	if( is.character(df) ) df = t(df)
 	df = as.data.frame(df, stringsAsFactors=FALSE)

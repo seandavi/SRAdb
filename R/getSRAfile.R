@@ -6,6 +6,7 @@
 getSRAfile <-
 function (in_acc, sra_con, destDir=getwd(), fileType='sra', srcType='ftp', makeDirectory=FALSE, method='curl', ascpCMD=NULL) 
 {
+	.deprecatedSRAdb("getSRAfile")
 	## note: 'litesra' has phased out 
 	sraFiles = listSRAfile (in_acc, sra_con, fileType, srcType)
 	

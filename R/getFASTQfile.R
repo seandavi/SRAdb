@@ -9,6 +9,7 @@
 getFASTQfile <-
 function (in_acc, sra_con, destDir=getwd(), srcType='ftp', makeDirectory=FALSE, method='curl', ascpCMD=NULL) 
 {	
+	.deprecatedSRAdb("getFASTQfile")
 	sraFiles = getFASTQinfo( in_acc, sra_con, srcType ) 
 	
 	if ( makeDirectory==TRUE && !file.exists(destDir) ) {

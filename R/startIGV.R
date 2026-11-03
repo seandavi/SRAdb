@@ -1,5 +1,6 @@
 startIGV <- 
 function (memory='mm', devel=FALSE) {
+	.deprecatedSRAdb("startIGV")
 	
 	memory1 = paste('_', memory, sep='')
 	if( memory=='hm' ) {

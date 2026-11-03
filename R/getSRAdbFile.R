@@ -2,6 +2,7 @@ getSRAdbFile <-
     function (destdir = getwd(), destfile = "SRAmetadb.sqlite.gz",
               method)
 {
+    .deprecatedSRAdb("getSRAdbFile")
     if (missing(method))
         method <- ifelse(!is.null(getOption("download.file.method")),
                          getOption("download.file.method"), "auto")

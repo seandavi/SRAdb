@@ -1,5 +1,6 @@
 getSRA <- 
 function (search_terms, out_types=c('sra','submission','study','experiment','sample','run'), sra_con, acc_only=FALSE) {
+	.deprecatedSRAdb("getSRA")
 	
 	out_types <- match.arg(out_types, several.ok = T)
 	

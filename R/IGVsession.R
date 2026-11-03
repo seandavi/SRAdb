@@ -1,6 +1,7 @@
 IGVsession <-
 function (files, sessionFile, genome='hg18', VisibleAttribute='', destdir=getwd()) 
 {
+	.deprecatedSRAdb("IGVsession")
 	if(nargs() < 2) stop(print('Both "files" and "sessionFile" are required!'))
 	if(length(files)<1) stop('Files must be specified')
 	if(length(sessionFile)<1) stop('sessionFile must be specified')
