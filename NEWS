@@ -67,4 +67,12 @@
 1.21.11	2015-03-22
     o Fixed a bug with listSRAfile function.
 
-	
+1.75.1	2026-11-03
+    o SRAdb is deprecated and will be removed from Bioconductor. The
+      SRAmetadb SQLite database is no longer updated (last build
+      December 2023). Use OmicIDX (https://omicidx.cancerdatasci.org/)
+      for current SRA metadata; from R, the omicidxr package replaces
+      SRAdb (https://omicidx.cancerdatasci.org/guides/r-omicidxr.html).
+    o Attaching the package prints a deprecation message, and every
+      exported function issues a deprecation warning. See
+      help("SRAdb-deprecated").

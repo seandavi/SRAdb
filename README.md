@@ -1,40 +1,24 @@
-# SRAdb
+# SRAdb (deprecated)
 
-```
-Package: SRAdb
-Type: Package
-Title: A compilation of metadata from NCBI SRA and tools
-Version: 1.35.0
-Date: 2016-04-28
-Depends: RSQLite, graph, RCurl
-Imports: GEOquery
-Suggests: Rgraphviz
-Author: Jack Zhu and Sean Davis
-Maintainer: Jack Zhu <zhujack@mail.nih.gov>
-Description: The Sequence Read Archive (SRA) is the largest public
-        repository of sequencing data from the next generation of
-        sequencing platforms including Roche 454 GS System, Illumina
-        Genome Analyzer, Applied Biosystems SOLiD System, Helicos
-        Heliscope, and others. However, finding data of interest can be
-        challenging using current tools. SRAdb is an attempt to make
-        access to the metadata associated with submission, study,
-        sample, experiment and run much more feasible. This is
-        accomplished by parsing all the NCBI SRA metadata into a SQLite
-        database that can be stored and queried locally. Fulltext
-        search in the package make querying metadata very flexible and
-        powerful.  fastq and sra files can be downloaded for doing
-        alignment locally. Beside ftp protocol, the SRAdb has funcitons
-        supporting fastp protocol (ascp from Aspera Connect) for faster
-        downloading large data files over long distance. The SQLite
-        database is updated regularly as new data is added to SRA and
-        can be downloaded at will for the most up-to-date metadata.
-License: Artistic-2.0
-LazyLoad: yes
-BugReports: https://github.com/seandavi/SRAdb/issues/new
-biocViews: Infrastructure, Sequencing, DataImport
+SRAdb is deprecated and will be removed from Bioconductor. The SRAmetadb
+SQLite database is no longer updated; the last build is from December 2023.
+
+## Replacement
+
+Use [OmicIDX](https://omicidx.cancerdatasci.org/) instead. It provides daily
+updated metadata for NCBI SRA, GEO, BioSample and BioProject.
+
+From R, the [omicidxr](https://omicidx.cancerdatasci.org/guides/r-omicidxr.html) package replaces SRAdb:
+
+```r
+pak::pak("seandavi/omicidxr")
+library(omicidxr)
+con <- omicidx_connect()
+DBI::dbGetQuery(con, "SELECT * FROM sradb.study LIMIT 5")
+sra_convert(con, "SRP001007", "run")
 ```
 
-# Raw database downloads
-
-- [sqlite3 (.gz)](https://starbuck1.s3.amazonaws.com/sradb/SRAmetadb.sqlite.gz)
-- [MySQL (mysqldump.gz)](https://starbuck1.s3.amazonaws.com/sradb/SRAdb.mysqldump.gz)
+The `sradb` schema follows the SRAdb tables, so most SQL ports by prefixing
+table names. The [migration guide](https://omicidx.cancerdatasci.org/guides/r-omicidxr.html) maps SRAdb functions to their omicidxr
+equivalents (`sraConvert()` to `sra_convert()`, `getSRA()` to `sra_search()`,
+`getSRAinfo()`/`listSRAfile()` to `sra_runs()`).
