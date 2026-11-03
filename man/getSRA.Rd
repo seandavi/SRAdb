@@ -2,6 +2,11 @@
 \alias{getSRA}
 \title{Fulltext search SRA meta data using SQLite fts3 module }
 \description{
+  \strong{Deprecated:} SRAdb is deprecated and will be removed from
+  Bioconductor; the SRAmetadb database is no longer updated. Use the
+  \pkg{omicidxr} package (\url{https://omicidx.cancerdatasci.org/guides/r-omicidxr.html})
+  instead. See \link{SRAdb-deprecated}.
+
 This function does Fulltext search on any SRA fields in any SRA data types with Fulltext capacity in the SQLite and returns SRA records
 }
 \usage{
@@ -38,6 +43,8 @@ http://www.sqlite.org/
 Jack Zhu <zhujack@mail.nih.gov>
 }
 \seealso{
+\link{SRAdb-deprecated}
+
 \code{\link{sraConvert}}
 }
 \examples{

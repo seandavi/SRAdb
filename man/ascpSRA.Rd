@@ -2,6 +2,11 @@
 \alias{ascpSRA}
 \title{Fasp SRA data file downloading using the ascp command line program }
 \description{
+  \strong{Deprecated:} SRAdb is deprecated and will be removed from
+  Bioconductor; the SRAmetadb database is no longer updated. Use the
+  \pkg{omicidxr} package (\url{https://omicidx.cancerdatasci.org/guides/r-omicidxr.html})
+  instead. See \link{SRAdb-deprecated}.
+
 This function downloads SRA data files (fastq, sra ) by fasp protocol using Aspera's ascp command line program, which is included in Aspera Connect software (http://www.asperasoft.com/). 
 }
 \usage{
@@ -37,6 +42,8 @@ http://www.asperasoft.com/
 Jack Zhu <zhujack@mail.nih.gov>
 }
 \seealso{
+\link{SRAdb-deprecated}
+
 \code{\link{ascpR}}, \code{\link{listSRAfile}}, \code{\link{getSRAfile}},  \code{\link{getFASTQinfo}}, \code{\link{getSRAinfo}}
 }
 \examples{

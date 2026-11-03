@@ -2,6 +2,11 @@
 \alias{getSRAinfo}
 \title{Get SRA data file information from NCBI SRA}
 \description{
+  \strong{Deprecated:} SRAdb is deprecated and will be removed from
+  Bioconductor; the SRAmetadb database is no longer updated. Use the
+  \pkg{omicidxr} package (\url{https://omicidx.cancerdatasci.org/guides/r-omicidxr.html})
+  instead. See \link{SRAdb-deprecated}.
+
 This function gets SRA .sra file information from NCBI SRA ftp site  for a given list SRA accessions.
 }
 \usage{
@@ -28,6 +33,8 @@ A data.frame of ftp addresses of SRA data files,  and file size and date along w
 Jack Zhu <zhujack@mail.nih.gov>
 }
 \seealso{
+\link{SRAdb-deprecated}
+
 \code{\link{listSRAfile}}, \code{\link{getSRAfile}}
 }
 \examples{

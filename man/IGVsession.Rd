@@ -2,6 +2,11 @@
 \alias{IGVsession}
 \title{ Create an IGV session file }
 \description{
+  \strong{Deprecated:} SRAdb is deprecated and will be removed from
+  Bioconductor; the SRAmetadb database is no longer updated. Use the
+  \pkg{omicidxr} package (\url{https://omicidx.cancerdatasci.org/guides/r-omicidxr.html})
+  instead. See \link{SRAdb-deprecated}.
+
 This function will create an IGV session file
 }
 \usage{
@@ -34,6 +39,8 @@ An IGV session file with full file path.
 Jack Zhu <zhujack@mail.nih.gov>
 }
 \seealso{
+\link{SRAdb-deprecated}
+
 \code{\link{IGVload}}, \code{\link{IGVgenome}}, \code{\link{IGVgoto}}
 }
 \examples{

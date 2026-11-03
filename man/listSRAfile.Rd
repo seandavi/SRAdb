@@ -2,6 +2,11 @@
 \alias{listSRAfile}
 \title{List sra, sra-lite or fastq data file names associated with input SRA accessions}
 \description{
+  \strong{Deprecated:} SRAdb is deprecated and will be removed from
+  Bioconductor; the SRAmetadb database is no longer updated. Use the
+  \pkg{omicidxr} package (\url{https://omicidx.cancerdatasci.org/guides/r-omicidxr.html})
+  instead. See \link{SRAdb-deprecated}.
+
 This function lists all sra, sra-lite or fastq data files associated with input SRA accessions
 }
 \usage{
@@ -32,6 +37,8 @@ A data frame of matched SRA accessions and data file names with ftp or fasp addr
 Jack Zhu <zhujack@mail.nih.gov>
 }
 \seealso{
+\link{SRAdb-deprecated}
+
 \code{\link{getSRAfile}}
 }
 \examples{

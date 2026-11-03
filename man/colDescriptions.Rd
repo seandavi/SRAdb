@@ -2,6 +2,11 @@
 \alias{colDescriptions}
 \title{Get column descriptions of SRAmetadb.sqlite}
 \description{
+  \strong{Deprecated:} SRAdb is deprecated and will be removed from
+  Bioconductor; the SRAmetadb database is no longer updated. Use the
+  \pkg{omicidxr} package (\url{https://omicidx.cancerdatasci.org/guides/r-omicidxr.html})
+  instead. See \link{SRAdb-deprecated}.
+
 Get column descriptions of SRAmetadb.sqlite, including table, field, field data type, description and default values
 }
 \usage{
@@ -28,6 +33,7 @@ Jack Zhu<zhujack@mail.nih.gov> and Sean Davis <sdavis2@mail.nih.gov>
 
 ## The actual SRAmetadb sqlite database can be downloaded using function: getSRAdbFile. Warning: the actual SRAmetadb sqlite database is pretty large (> 35GB as of May, 2018) after uncompression. So, downloading and uncompressing of the actual SRAmetadb sqlite could take quite a few minutes depending on your network bandwidth. Direct links for downloading the SRAmetadb sqlite database:  https://s3.amazonaws.com/starbuck1/sradb/SRAmetadb.sqlite.gz https://gbnci-abcc.ncifcrf.gov/backup/SRAmetadb.sqlite.gz
 }
+\seealso{\link{SRAdb-deprecated}}
 \keyword{ database }
 \keyword{ SRA }
 \keyword{ NCBI }

@@ -2,6 +2,11 @@
 \alias{getFASTQinfo}
 \title{Get SRA fastq file information and associated meta data from EBI ENA}
 \description{
+  \strong{Deprecated:} SRAdb is deprecated and will be removed from
+  Bioconductor; the SRAmetadb database is no longer updated. Use the
+  \pkg{omicidxr} package (\url{https://omicidx.cancerdatasci.org/guides/r-omicidxr.html})
+  instead. See \link{SRAdb-deprecated}.
+
 This function gets SRA fastq file information and essential associated meta data from EBI ENA web site ( http://www.ebi.ac.uk/ena/data/view/reports/sra/fastq_files/ ) for SRA accessions given.
 }
 \usage{
@@ -28,6 +33,8 @@ A data.frame of  ftp/fasp inftomation ( addresses, file size, read number, etc) 
 Jack Zhu <zhujack@mail.nih.gov>
 }
 \seealso{
+\link{SRAdb-deprecated}
+
 \code{\link{getFASTQfile}}, \code{\link{listSRAfile}}, \code{\link{getSRAfile}}
 }
 \examples{

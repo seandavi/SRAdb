@@ -4,7 +4,15 @@
 \docType{package}
 \title{Query NCBI SRA metadata within R or from a local SQLite database}
 \description{
-The Sequence Read Archive (SRA) represents largest public repository of sequencing data from the next generation of sequencing platforms including Roche 454 GS System, Illumina Genome Analyzer, Applied Biosystems SOLiD System, Helicos Heliscope, and others. However, finding data of interest can be challenging using current tools. SRAdb is an attempt to make access to the metadata associated with submission, study, sample, experiment and run much more feasible. This is accomplished by parsing all the NCBI SRA metadata into a SQLite database that can be stored and queried locally. SRAdb is simply a thin wrapper around the SQLite database along with associated tools and documentation. Fulltext search in the package make querying metadata very flexible and powerful.  SRA data files (sra or sra-lite) can be downloaded for doing alignment locally. Available BAM files in local or in the Meltzerlab sraDB can be loaded into IGV for visualization easily. The SQLite database is updated regularly as new data is added to SRA and can be downloaded at will for the most up-to-date metadata. 
+The Sequence Read Archive (SRA) represents largest public repository of sequencing data from the next generation of sequencing platforms including Roche 454 GS System, Illumina Genome Analyzer, Applied Biosystems SOLiD System, Helicos Heliscope, and others. However, finding data of interest can be challenging using current tools. SRAdb is an attempt to make access to the metadata associated with submission, study, sample, experiment and run much more feasible. This is accomplished by parsing all the NCBI SRA metadata into a SQLite database that can be stored and queried locally. SRAdb is simply a thin wrapper around the SQLite database along with associated tools and documentation. Fulltext search in the package make querying metadata very flexible and powerful.  SRA data files (sra or sra-lite) can be downloaded for doing alignment locally. Available BAM files in local or in the Meltzerlab sraDB can be loaded into IGV for visualization easily. 
+}
+\section{Deprecated}{
+  SRAdb is deprecated and will be removed from Bioconductor. The
+  SRAmetadb SQLite database is no longer updated (the last build is from
+  December 2023). For current SRA metadata, use OmicIDX
+  (\url{https://omicidx.cancerdatasci.org/}); from R, the \pkg{omicidxr}
+  package replaces SRAdb (\url{https://omicidx.cancerdatasci.org/guides/r-omicidxr.html}). See
+  \link{SRAdb-deprecated}.
 }
 \details{
 \tabular{ll}{
@@ -23,6 +31,7 @@ Maintainer: Jack Zhu <zhujack@mail.nih.gov>
 \references{
 https://s3.amazonaws.com/starbuck1/sradb/SRAmetadb.sqlite.gz https://gbnci-abcc.ncifcrf.gov/backup/SRAmetadb.sqlite.gz
 }
+\seealso{\link{SRAdb-deprecated}}
 \keyword{ package }
 \examples{
 ## Using the SRAmetadb demo database

@@ -4,6 +4,11 @@
   Clear IGV tracks loaded.
 }
 \description{
+  \strong{Deprecated:} SRAdb is deprecated and will be removed from
+  Bioconductor; the SRAmetadb database is no longer updated. Use the
+  \pkg{omicidxr} package (\url{https://omicidx.cancerdatasci.org/guides/r-omicidxr.html})
+  instead. See \link{SRAdb-deprecated}.
+
   Clear IGV tracks loaded in the current IGV.
 }
 \usage{
@@ -21,6 +26,8 @@ http://www.broadinstitute.org/igv/PortCommands
 Jack Zhu <zhujack@mail.nih.gov>
 }
 \seealso{
+\link{SRAdb-deprecated}
+
 \code{\link{startIGV}}, \code{\link{IGVload}}, \code{\link{IGVgoto}}
 }
 \examples{

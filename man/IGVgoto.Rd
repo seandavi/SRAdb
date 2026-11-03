@@ -4,6 +4,11 @@
   Go to a specified region in IGV.
 }
 \description{
+  \strong{Deprecated:} SRAdb is deprecated and will be removed from
+  Bioconductor; the SRAmetadb database is no longer updated. Use the
+  \pkg{omicidxr} package (\url{https://omicidx.cancerdatasci.org/guides/r-omicidxr.html})
+  instead. See \link{SRAdb-deprecated}.
+
   Using the remote command port of IGV, go to a specified region.
 }
 \usage{
@@ -25,6 +30,8 @@ http://www.broadinstitute.org/igv/PortCommands
 Sean Davis <sdavis2@mail.nih.gov>
 }
 \seealso{
+\link{SRAdb-deprecated}
+
 \code{\link{startIGV}}, \code{\link{IGVload}}
 }
 \examples{

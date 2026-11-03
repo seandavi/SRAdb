@@ -2,6 +2,11 @@
 \alias{entityGraph}
 \title{ Create a new graphNEL object from an input entity matrix or data.frame }
 \description{
+  \strong{Deprecated:} SRAdb is deprecated and will be removed from
+  Bioconductor; the SRAmetadb database is no longer updated. Use the
+  \pkg{omicidxr} package (\url{https://omicidx.cancerdatasci.org/guides/r-omicidxr.html})
+  instead. See \link{SRAdb-deprecated}.
+
 This function will create a  new graphNEL object from an input entity matrix or data.frame
 }
 \usage{
@@ -22,6 +27,8 @@ A graphNEL object with edgemode='directed'
 Jack Zhu <zhujack@mail.nih.gov> and Sean Davis <sdavis2@mail.nih.gov>
 }
 \seealso{
+\link{SRAdb-deprecated}
+
 \code{\link{getSRA}}, \code{\link{sraConvert}}, \code{\link{sraGraph}}
 }
 \examples{

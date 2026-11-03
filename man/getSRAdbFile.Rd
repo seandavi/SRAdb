@@ -2,6 +2,11 @@
 \alias{getSRAdbFile}
 \title{Download and unzip last version of SRAmetadb.sqlite.gz from the server}
 \description{
+  \strong{Deprecated:} SRAdb is deprecated and will be removed from
+  Bioconductor; the SRAmetadb database is no longer updated. Use the
+  \pkg{omicidxr} package (\url{https://omicidx.cancerdatasci.org/guides/r-omicidxr.html})
+  instead. See \link{SRAdb-deprecated}.
+
   This function is the standard method for downloading and unzipping the
   most recent SRAmetadb SQLite file from the server.
 }
@@ -31,3 +36,4 @@ sra_dbname <- file.path(system.file('extdata', package='SRAdb'), 'SRAmetadb_demo
 \dontrun{geometadbfile <- getSRAdbFile()}
 ## Direct links for downloading the SRAmetadb sqlite database:  https://s3.amazonaws.com/starbuck1/sradb/SRAmetadb.sqlite.gz https://gbnci-abcc.ncifcrf.gov/backup/SRAmetadb.sqlite.gz
 }
+\seealso{\link{SRAdb-deprecated}}

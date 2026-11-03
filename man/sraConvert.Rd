@@ -2,6 +2,11 @@
 \alias{sraConvert}
 \title{Cross-reference between GEO data types}
 \description{
+  \strong{Deprecated:} SRAdb is deprecated and will be removed from
+  Bioconductor; the SRAmetadb database is no longer updated. Use the
+  \pkg{omicidxr} package (\url{https://omicidx.cancerdatasci.org/guides/r-omicidxr.html})
+  instead. See \link{SRAdb-deprecated}.
+
   A common task is to find all the SRA entities of one type associated
   with another SRA entity (eg., find all SRA samples associated with SRA
   study 'SRP001990'). This function provides a very fast mapping between
@@ -28,6 +33,8 @@ A data.frame containing all matched SRA accessions.
 Jack Zhu <zhujack@mail.nih.gov>
 }
 \seealso{
+\link{SRAdb-deprecated}
+
 \code{\link{getSRA}}, \code{\link{listSRAfile}}, \code{\link{getSRAinfo}}
 }
 \examples{

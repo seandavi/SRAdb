@@ -2,6 +2,11 @@
 \alias{startIGV}
 \title{Start IGV from R with different amount maximum memory support}
 \description{
+  \strong{Deprecated:} SRAdb is deprecated and will be removed from
+  Bioconductor; the SRAmetadb database is no longer updated. Use the
+  \pkg{omicidxr} package (\url{https://omicidx.cancerdatasci.org/guides/r-omicidxr.html})
+  instead. See \link{SRAdb-deprecated}.
+
 This function is to start the Integrative Genomics Viewer (IGV) within R, which is a high-performance visualization tool for interactive exploration of large, integrated datasets. It supports a wide variety of data types including sequence alignments, microarrays, and genomic annotations. In the SRAdb, functions of load2IGV and load2newIGV can be used to load BAM format of sequencing data into IGV conveniently. 
 }
 \usage{
@@ -27,6 +32,8 @@ http://www.broadinstitute.org/igv/
 Jack Zhu
 }
 \seealso{
+\link{SRAdb-deprecated}
+
 \code{\link{IGVload}}, \code{\link{IGVgoto}}, \code{\link{IGVgenome}}
 }
 \examples{
