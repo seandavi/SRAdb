@@ -8,7 +8,7 @@ getSRAdbFile <-
     localfile <- file.path(destdir, destfile)   
     options(warn=-1)
     
-    url_sra_1 = 'https://s3.amazonaws.com/starbuck1/sradb/SRAmetadb.sqlite.gz'
+    url_sra_1 = 'https://gbnci.cancer.gov/backup/SRAmetadb.sqlite.gz'
     url_sra_2 = 'https://gbnci-abcc.ncifcrf.gov/backup/SRAmetadb.sqlite.gz'
 
     if(! inherits(try(url(url_sra_1, open='rb'), silent = TRUE), "try-error") ) {

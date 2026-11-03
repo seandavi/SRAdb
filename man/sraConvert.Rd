@@ -31,20 +31,18 @@ Jack Zhu <zhujack@mail.nih.gov>
 \code{\link{getSRA}}, \code{\link{listSRAfile}}, \code{\link{getSRAinfo}}
 }
 \examples{
-if(file.exists('SRAmetadb.sqlite')) {
+## Using the SRAmetadb demo database
 
 	library(SRAdb)
-	sra_dbname <- 'SRAmetadb.sqlite'	
+	sra_dbname <- file.path(system.file('extdata', package='SRAdb'), 'SRAmetadb_demo.sqlite')	
 	sra_con <- dbConnect(dbDriver("SQLite"), sra_dbname)
 
 	## Convert SRA experiment accessions to other types
 	a <- sraConvert( in_acc=c(" SRR000137", "SRR000138 "), out_type=c('sample'), sra_con=sra_con )
-	b <- sraConvert (in_acc=c("SRX000089"), sra_con=sra_con) 
+	b <- sraConvert (in_acc=c("SRX000122"), sra_con=sra_con) 
 
-} else {
-  	print("use getSRAdbFile() to get a copy of the SRAmetadb.sqlite file
-and then rerun the example")
-}
+## The actual SRAmetadb sqlite database can be downloaded using function: getSRAdbFile. Warning: the actual SRAmetadb sqlite database is pretty large (> 35GB as of May, 2018) after uncompression. So, downloading and uncompressing of the actual SRAmetadb sqlite could take quite a few minutes depending on your network bandwidth. Direct links for downloading the SRAmetadb sqlite database:  https://s3.amazonaws.com/starbuck1/sradb/SRAmetadb.sqlite.gz https://gbnci-abcc.ncifcrf.gov/backup/SRAmetadb.sqlite.gz
+
 }
 \keyword{ database }
 \keyword{ SRA }

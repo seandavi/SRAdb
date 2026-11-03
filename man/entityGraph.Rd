@@ -25,14 +25,14 @@ Jack Zhu <zhujack@mail.nih.gov> and Sean Davis <sdavis2@mail.nih.gov>
 \code{\link{getSRA}}, \code{\link{sraConvert}}, \code{\link{sraGraph}}
 }
 \examples{
-if(file.exists('SRAmetadb.sqlite')) {
+## Using the SRAmetadb demo database
 
 	library(SRAdb)
-	sra_dbname <- 'SRAmetadb.sqlite'	
+	sra_dbname <- file.path(system.file('extdata', package='SRAdb'), 'SRAmetadb_demo.sqlite')	
 	sra_con <- dbConnect(dbDriver("SQLite"), sra_dbname)
 
 	## create a graphNEL object from SRA accessions, which are full text search results of terms 'primary thyroid cell line'
-  	acc <- getSRA (search_terms ='primary thyroid cell line', out_types=c('sra'), sra_con=sra_con, acc_only=TRUE) 
+  	acc <- getSRA (search_terms ='MCF7 OR "MCF-7"', out_types=c('sra'), sra_con=sra_con, acc_only=TRUE) 
   	g <- entityGraph(acc)
   	\dontrun{
   	library(Rgraphviz)
@@ -40,9 +40,5 @@ if(file.exists('SRAmetadb.sqlite')) {
   	plot(g, attrs= attrs)
   	}
 
-} else {
-  	print("use getSRAdbFile() to get a copy of the SRAmetadb.sqlite file
-and then rerun the example")
-}
-
+## The actual SRAmetadb sqlite database can be downloaded using function: getSRAdbFile. Warning: the actual SRAmetadb sqlite database is pretty large (> 35GB as of May, 2018) after uncompression. So, downloading and uncompressing of the actual SRAmetadb sqlite could take quite a few minutes depending on your network bandwidth. Direct links for downloading the SRAmetadb sqlite database:  https://s3.amazonaws.com/starbuck1/sradb/SRAmetadb.sqlite.gz https://gbnci-abcc.ncifcrf.gov/backup/SRAmetadb.sqlite.gz
 }

@@ -25,5 +25,9 @@ getSRAdbFile(destdir = getwd(), destfile = "SRAmetadb.sqlite.gz",
 Jack Zhu <zhujack@mail.nih.gov>, Sean Davis <sdavis2@mail.nih.gov>
 }
 \examples{
+## the SRAmetadb demo database can be used to test
+sra_dbname <- file.path(system.file('extdata', package='SRAdb'), 'SRAmetadb_demo.sqlite')	
+
 \dontrun{geometadbfile <- getSRAdbFile()}
+## Direct links for downloading the SRAmetadb sqlite database:  https://s3.amazonaws.com/starbuck1/sradb/SRAmetadb.sqlite.gz https://gbnci-abcc.ncifcrf.gov/backup/SRAmetadb.sqlite.gz
 }

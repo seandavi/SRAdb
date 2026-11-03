@@ -55,13 +55,14 @@ Since SRA is a continuously growing repository, the \Rpackage{SRAdb} SQLite file
 
 <<>>=
 library(SRAdb)
-sqlfile <- 'SRAmetadb.sqlite'
-if(!file.exists('SRAmetadb.sqlite')) sqlfile <<- getSRAdbFile()
+sqlfile <- file.path(system.file('extdata', package='SRAdb'), 'SRAmetadb_demo.sqlite')
 @ 
 
-The default storage location is in the current working directory and the default filename is ``SRAmetadb.sqlite''; it is best to leave the name unchanged unless there is a pressing reason to change it.  Note: the above downloading and uncompressing steps could take quite a fews moments due to file size,  depdending on your network bandwidth. If interested, it can be timed using the following commands:
+Note: the above "SRAmetadb\_demo.sqlite" is a down-sized demo SRAmetadb sqlite database.  The actual SRAmetadb sqlite database can be downloaded using function: getSRAdbFile. Warning: the actual SRAmetadb sqlite database is pretty large (> 35GB as of May, 2018) after uncompression. So, downloading and uncompressing of the actual SRAmetadb sqlite could take quite a few minutes depending on your network bandwidth. Direct links for downloading the SRAmetadb sqlite database: https://s3.amazonaws.com/starbuck1/sradb/SRAmetadb.sqlite.gz https://gbnci-abcc.ncifcrf.gov/backup/SRAmetadb.sqlite.gz . If interested, it can be timed using the following commands:
 
 <<eval=FALSE>>=
+
+
 timeStart <- proc.time()
 sqlfile <- getSRAdbFile()
 proc.time() - timeStart
@@ -70,7 +71,7 @@ proc.time() - timeStart
 Since this SQLite file is of key importance in \Rpackage{SRAdb}, it is perhaps of some interest to know some details about the file itself.
 
 <<>>=
-file.info('SRAmetadb.sqlite')
+file.info(sqlfile)
 @ 
 
 Then, create a connection for later queries. The standard \Rpackage{DBI} functionality as implemented in \Rpackage{RSQLite} function \Rfunction{dbConnect} makes the connection to the database.  The \Rfunction{dbDisconnect} function disconnects the connection.
@@ -164,7 +165,7 @@ rs
 
 Large-scale consumers of SRA data might want to convert SRA entity type from one to others, e.g. finding all experiment accessions (SRX, ERX or DRX) and  run accessions (SRR, ERR or DRR) associated with "SRP001007" and "SRP000931". Function sraConvert does the conversion with a very fast mapping between entity types. 
 
-Covert "SRP001007" and "SRP000931" to other possible types in the SRAmetadb.sqlite:
+Covert "SRP001007" and "SRP000931" to other possible types in the SRAmetadb\_demo.sqlite:
 <<>>=
 conversion <- sraConvert( c('SRP001007','SRP000931'), sra_con = sra_con )
 conversion[1:3,]
@@ -235,21 +236,21 @@ rs = listSRAfile( c("SRX000122"), sra_con, fileType = 'sra' )
 The above function does not check file availability, size and date of the sra data files on the server, but the function getSRAinfo does this, which is good to know if you are  preparing to download them:
 
 <<>>=
-rs = getSRAinfo ( c("SRX000122"), sra_con, sraType = "sra" )
-rs[1:3,]
+# rs = getSRAinfo ( c("SRX000122"), sra_con, sraType = "sra" )
+# rs[1:3,]
 @
 
 Next you might want to download sra data files from the ftp site.  The getSRAfile function will download all available sra data files associated with "SRR000648" and "SRR000657" from the NCBI SRA ftp site to the current directory:
 
-<<>>=
+<<eval=false>>=
 getSRAfile( c("SRR000648","SRR000657"), sra_con, fileType = 'sra' )
 @
 
 Then downloaded sra data files can be easily converted into fastq files using fastq-dump in SRA Toolkit 
 ( http://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=software ):
 
-<<>>=
-## system ("fastq-dump SRR000648.lite.sra")
+<<eval=false>>=
+system ("fastq-dump SRR000648.sra")
 @
 
 Or directly download fastq files from EBI using ftp protocol:

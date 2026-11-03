@@ -47,16 +47,17 @@ Jack Zhu <zhujack@mail.nih.gov>
 \code{\link{listSRAfile}}, \code{\link{getSRAinfo}}, \code{\link{getFASTQinfo}}, \code{\link{getFASTQfile}}
 }
 \examples{
-if( file.exists( 'SRAmetadb.sqlite' ) ) {
+## Using the SRAmetadb demo database
 
 	library(SRAdb)
-	sra_dbname <- 'SRAmetadb.sqlite'	
+	sra_dbname <- file.path(system.file('extdata', package='SRAdb'), 'SRAmetadb_demo.sqlite')	
 	sra_con <- dbConnect( dbDriver("SQLite"), sra_dbname )
 	
 	\dontrun{
 	## Download sra files from NCBI SRA using ftp protocol:
-	getSRAfile( in_acc = c("SRR000648","SRR000657"), sra_con = sra_con, destDir = getwd(), fileType = 'sra' )
-	
+	in_acc = c("SRR000648","SRR000657")
+	getSRAfile( in_acc, sra_con = sra_con, destDir = getwd(), fileType = 'sra', srcType = 'ftp')
+
 	## Convert NCBI SRA format (.sra) data to fastq:
 	## Download SRA Toolkit: http://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?cmd=show&f=software&m=software&s=software 
 	## Run fastq-dump to 
@@ -68,11 +69,10 @@ if( file.exists( 'SRAmetadb.sqlite' ) ) {
 	## Download fastq files from EBI  ftp siteusing fasp protocol:
 	ascpCMD <-  'ascp -QT -l 300m -i /usr/local/aspera/connect/etc/asperaweb_id_dsa.putty'
 	getSRAfile( in_acc, sra_con,  fileType = 'fastq', srcType = 'fasp',  ascpCMD = ascpCMD )
-	}
-	
 	dbDisconnect( sra_con )
-} else {
-	print( "use getSRAdbFile() to get a copy of the SRAmetadb.sqlite file and then rerun the example" )
-}
+	}
+
+## The actual SRAmetadb sqlite database can be downloaded using function: getSRAdbFile. Warning: the actual SRAmetadb sqlite database is pretty large (> 35GB as of May, 2018) after uncompression. So, downloading and uncompressing of the actual SRAmetadb sqlite could take quite a few minutes depending on your network bandwidth. Direct links for downloading the SRAmetadb sqlite database:  https://s3.amazonaws.com/starbuck1/sradb/SRAmetadb.sqlite.gz https://gbnci-abcc.ncifcrf.gov/backup/SRAmetadb.sqlite.gz
+
 }
 
